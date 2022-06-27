@@ -3,13 +3,13 @@
     "collection": "@nestjs/schematics",
     "sourceRoot": "src",
     "compilerOptions": {
-        "plugins": [
+      "plugins": [
             "@nestjs/swagger/plugin"
         ],
         "assets": [
             {
-                "include": "i18n/*.json",
-                "outDir": "dist/src"
+                "include": "i18n/**/*",
+                "outDir": "dist"
             }
         ]
     }

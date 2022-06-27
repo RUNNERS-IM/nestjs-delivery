@@ -1,9 +1,7 @@
 import { Transform, TransformationType } from 'class-transformer';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { castArray, isArray, isNil, map, trim } from 'lodash';
-
 import { GeneratorProvider } from '../providers';
-
 /**
  * @description trim spaces from start and end, replace multiple spaces with one.
  * @example
@@ -17,15 +15,12 @@ import { GeneratorProvider } from '../providers';
 export function Trim(): PropertyDecorator {
   return Transform((params) => {
     const value = params.value as string[] | string;
-
     if (isArray(value)) {
       return map(value, (v) => trim(v).replace(/\s\s+/g, ' '));
     }
-
     return trim(value).replace(/\s\s+/g, ' ');
   });
 }
-
 export function ToBoolean(): PropertyDecorator {
   return Transform(
     (params) => {
@@ -41,7 +36,6 @@ export function ToBoolean(): PropertyDecorator {
     { toClassOnly: true },
   );
 }
-
 /**
  * @description convert string or number to integer
  * @example
@@ -55,13 +49,11 @@ export function ToInt(): PropertyDecorator {
   return Transform(
     (params) => {
       const value = params.value as string;
-
       return Number.parseInt(value, 10);
     },
     { toClassOnly: true },
   );
 }
-
 /**
  * @description transforms to array, specially for query params
  * @example
@@ -74,30 +66,24 @@ export function ToArray(): PropertyDecorator {
   return Transform(
     (params) => {
       const value = params.value;
-
       if (isNil(value)) {
         return [];
       }
-
       return castArray(value);
     },
     { toClassOnly: true },
   );
 }
-
 export function ToLowerCase(): PropertyDecorator {
   return Transform(
     (params) => {
       const value = params.value;
-
       if (!value) {
         return;
       }
-
       if (!Array.isArray(value)) {
         return value.toLowerCase();
       }
-
       return value.map((v) => v.toLowerCase());
     },
     {
@@ -105,20 +91,16 @@ export function ToLowerCase(): PropertyDecorator {
     },
   );
 }
-
 export function ToUpperCase(): PropertyDecorator {
   return Transform(
     (params) => {
       const value = params.value;
-
       if (!value) {
         return;
       }
-
       if (!Array.isArray(value)) {
         return value.toUpperCase();
       }
-
       return value.map((v) => v.toUpperCase());
     },
     {
@@ -126,11 +108,9 @@ export function ToUpperCase(): PropertyDecorator {
     },
   );
 }
-
 export function S3UrlParser(): PropertyDecorator {
   return Transform((params) => {
     const key = params.value as string;
-
     switch (params.type) {
       case TransformationType.CLASS_TO_PLAIN:
         return GeneratorProvider.getS3PublicUrl(key);
@@ -141,7 +121,6 @@ export function S3UrlParser(): PropertyDecorator {
     }
   });
 }
-
 export function PhoneNumberSerializer(): PropertyDecorator {
   return Transform((params) => parsePhoneNumber(params.value as string).number);
 }

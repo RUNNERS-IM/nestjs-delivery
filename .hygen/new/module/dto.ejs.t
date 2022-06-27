@@ -1,24 +1,84 @@
 ---
-to: "src/modules/<%= h.fileName(name) %>/dtos/<%= h.dtoFileName(name) %>.ts"
+to: "src/modules/<%= h.name(name) %>/dtos/<%= h.dtoFileName(name) %>.ts"
 unless_exists: true
-skip_if: <%= !blocks.includes('DTO') %>
 ---
 <%
+  // Class
+  ClassName = h.ClassName(name);
 
- DtoName = h.DtoName(name);
- DtoOptionName = h.DtoOptionName(name);
- EntityName = h.EntityName(name);
- entityName = h.changeCase.camel(EntityName);
- entityFileName = h.entityFileName(name);
+  // Name
+  NAME = h.NAME(name);
+  SUBNAME = h.SUBNAME(subname);
 
-%>import { AbstractDto } from '../../../common/dto/abstract.dto';
-import type { <%= EntityName %> } from '../<%= entityFileName %>';
+  // Plural
+  pluralName = h.pluralName(name);
+  subPluralName = h.subPluralName(subname);
 
-export interface <%= DtoOptionName %> {
-}
+  // Module
+  moduleName = h.moduleName(name);
+  ModuleName = h.ModuleName(name);
+  moduleFileName = h.moduleFileName(name);
 
-export class <%= DtoName %> extends AbstractDto {
-  constructor(entityName: <%= EntityName %>, options?: <%= DtoOptionName %>) {
-    super(entityName);
-  }
-}
+  // Service
+  ServiceName = h.ServiceName(name);
+  serviceName = h.serviceName(name);
+  serviceFileName = h.serviceFileName(name);
+  SubServiceName = h.SubServiceName(subname);
+  subServiceFileName = h.subServiceFileName(subname);
+
+  // Dto
+  DtoName = h.DtoName(name);
+  dtoFileName = h.dtoFileName(name);
+  CreateDtoName = h.CreateDtoName(name);
+  createDtoFileName = h.createDtoFileName(name);
+  UpdateDtoName = h.UpdateDtoName(name);
+  updateDtoFileName = h.updateDtoFileName(name);
+
+  // Entity
+  EntityName = h.EntityName(name);
+  entityFileName = h.entityFileName(name);
+  SubEntityName = h.SubEntityName(subname);
+  subEntityFileName = h.subEntityFileName(subname);
+
+  // Repository
+  RepositoryName = h.RepositoryName(name);
+  repositoryName = h.repositoryName(name);
+  repositoryFileName = h.repositoryFileName(name);
+  SubRepositoryName = h.SubRepositoryName(subname);
+  subRepositoryName = h.subRepositoryName(subname);
+  subRepositoryFileName = h.subRepositoryFileName(subname);
+
+  // Subscriber
+  SubscriberName = h.SubscriberName(name);
+  subscriberFileName = h.subscriberFileName(name);
+  SubSubscriberName = h.SubSubscriberName(subname);
+  subSubscriberFileName = h.subSubscriberFileName(subname);
+
+  // Controller
+  ControllerName = h.ControllerName(name);
+  controllerFileName = h.controllerFileName(name);
+
+  SubControllerName = h.SubControllerName(subname);
+  subControllerFileName = h.subControllerFileName(subname);
+
+  // Response
+  responseFileName = h.responseFileName(name);
+
+  subResponseFileName = h.subResponseFileName(subname);
+
+  // Response
+  resourceName = h.resourceName(name);
+  resourceFileName = h.resourceFileName(name);
+
+  // Resource Options
+  resourceOptionsName = h.resourceOptionsName(name);
+  resourceOptionsFileName = h.resourceOptionsFileName(name);
+%>// Nestjs
+import { PartialType, PickType } from '@nestjs/swagger';
+// Entity
+import { <%= EntityName %> } from '../entities/<%= entityFileName %>';
+// Main section
+export class <%= DtoName %> extends PickType(PartialType(<%= EntityName %>), [
+  'title',
+  'number',
+] as const) {}

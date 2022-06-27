@@ -1,7 +1,3 @@
-import dotenv from 'dotenv';
-
-dotenv.config({ path: `.envs/.${process.env.ENVIRONMENT}/.env` });
-
 const translations = {
   actions: {
     new: 'Create new',
@@ -34,6 +30,12 @@ const translations = {
     loginWelcome: `Welcome to ${process.env.SERVICE_TITLE || 'Admin'}!`,
     dashboard: 'Dashboard',
     UserEntity: 'User',
+    SellerEntity: 'Seller',
+    BuyerEntity: 'Buyer',
+    DeliveryEntity: 'Delivery',
+    DeliveryPrepareEntity: 'Delivery Prepare',
+    DeliveryCancelEntity: 'Delivery Cancel',
+    CardEntity: 'Card',
   },
   properties: {
     length: 'Length',
@@ -95,7 +97,6 @@ const translations = {
     invalidCredentials: 'Wrong email and/or password',
   },
 };
-
 export default {
   language: 'en',
   translations,

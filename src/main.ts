@@ -1,3 +1,5 @@
+require('./env');
+// Nestjs
 import {
   ClassSerializerInterceptor,
   HttpStatus,
@@ -8,6 +10,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { ExpressAdapter } from '@nestjs/platform-express';
+// Third party
 import compression from 'compression';
 import { middleware as expressCtx } from 'express-ctx';
 import rateLimit from 'express-rate-limit';
@@ -17,29 +20,30 @@ import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
-
-import { AppModule } from './app.module';
+// Filter
 import { HttpExceptionFilter } from './filters/bad-request.filter';
 import { QueryFailedFilter } from './filters/query-failed.filter';
-import { TranslationInterceptor } from './interceptors/translation-interceptor.service';
-import { setupSwagger } from './setup-swagger';
+// Module
+import { AppModule } from './app.module';
+import { SharedModule } from './shared/shared.module';
+// Service
 import { ApiConfigService } from './shared/services/api-config.service';
 import { TranslationService } from './shared/services/translation.service';
-import { SharedModule } from './shared/shared.module';
+import { TranslationInterceptor } from './interceptors/translation-interceptor.service';
+// Swagger
+import { setupSwagger } from './setup-swagger';
 
+// Main section
 export async function bootstrap(): Promise<NestExpressApplication> {
   initializeTransactionalContext();
   patchTypeORMRepositoryWithBaseRepository();
-
   const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter(), {
     cors: true,
   });
   const configService = app.select(SharedModule).get(ApiConfigService);
-
   if (configService.documentationEnabled) {
     setupSwagger(app);
   }
-
   app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(
     helmet({
@@ -54,6 +58,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
       },
     }),
   );
+
   // app.setGlobalPrefix('/api'); use api as global prefix if you don't have subdomain
   app.use(
     rateLimit({
@@ -65,16 +70,12 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   app.use(morgan('combined'));
   app.enableVersioning();
   app.enableCors();
-
   const reflector = app.get(Reflector);
-
   app.useGlobalFilters(new HttpExceptionFilter(reflector), new QueryFailedFilter(reflector));
-
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(reflector),
     new TranslationInterceptor(app.select(SharedModule).get(TranslationService)),
   );
-
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -98,23 +99,24 @@ export async function bootstrap(): Promise<NestExpressApplication> {
         queue: 'main_service',
       },
     });
-
     await app.startAllMicroservices();
   }
-
   app.use(expressCtx);
 
   // Starts listening for shutdown hooks
   if (!configService.isDevelopment) {
     app.enableShutdownHooks();
   }
-
   const port = configService.appConfig.port;
   await app.listen(port || 3000, '0.0.0.0');
-
   console.info(`server running on ${await app.getUrl()}`);
 
+  // if (module.hot) {
+  //   module.hot.accept();
+
+  //   module.hot.dispose(() => app.close());
+
+  // }
   return app;
 }
-
 void bootstrap();

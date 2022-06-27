@@ -1,7 +1,6 @@
 import type { ValidationOptions } from 'class-validator';
 import { IsPhoneNumber as isPhoneNumber, registerDecorator, ValidateIf } from 'class-validator';
 import { isString } from 'lodash';
-
 export function IsPassword(validationOptions?: ValidationOptions): PropertyDecorator {
   return (object, propertyName: string) => {
     registerDecorator({
@@ -18,7 +17,6 @@ export function IsPassword(validationOptions?: ValidationOptions): PropertyDecor
     });
   };
 }
-
 export function IsPhoneNumber(
   validationOptions?: ValidationOptions & {
     region?: Parameters<typeof isPhoneNumber>[0];
@@ -29,7 +27,6 @@ export function IsPhoneNumber(
     ...validationOptions,
   });
 }
-
 export function IsTmpKey(validationOptions?: ValidationOptions): PropertyDecorator {
   return (object, propertyName: string) => {
     registerDecorator({
@@ -48,11 +45,9 @@ export function IsTmpKey(validationOptions?: ValidationOptions): PropertyDecorat
     });
   };
 }
-
 export function IsUndefinable(options?: ValidationOptions): PropertyDecorator {
   return ValidateIf((obj, value) => value !== undefined, options);
 }
-
 export function IsNullable(options?: ValidationOptions): PropertyDecorator {
   return ValidateIf((obj, value) => value !== null, options);
 }

@@ -1,73 +1,58 @@
-import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
-  UploadedFile,
-  Version,
+  Request,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-
-import { RoleType } from '../../constants';
+import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiTag } from '../../constants/api-tag';
-import { ApiFile, Auth, AuthUser } from '../../decorators';
-import { UserNotFoundException } from '../../exceptions';
-import { IFile } from '../../interfaces';
-import { UserDto } from '../user/dtos/user.dto';
-import { UserEntity } from '../user/user.entity';
-import { UserService } from '../user/user.service';
+import { UserService } from '../user/services/user.service';
 import { AuthService } from './auth.service';
-import { LoginPayloadDto } from './dto/LoginPayloadDto';
-import { UserLoginDto } from './dto/UserLoginDto';
-import { UserRegisterDto } from './dto/UserRegisterDto';
-
+import { UserLoginedResponse } from '../user/responses/user-logined.response';
+import { CreateUserDto } from '../user/dtos/create-user.dto';
+import { UserRegisteredResponse } from '../user/responses/user-registered.response';
+import { UserLoginDto } from './dtos/user-login.dto';
+import { UserEntity } from '../user/entities/user.entity';
+import { TokenDto } from './dtos/token.dto';
 @Controller('auth')
 @ApiTags(ApiTag.AUTH)
 export class AuthController {
   constructor(private userService: UserService, private authService: AuthService) {}
-
+  @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({
+    summary: '유저 등록 API',
+    description: '유저 등록하는 API 입니다.',
+  })
+  @ApiCreatedResponse({ description: '유저등록 성공시 결과 예시', type: UserRegisteredResponse })
+  async signup(@Request() req, @Body() createUserDto: CreateUserDto) {
+    let user: UserEntity = await this.userService.findOne({ key: createUserDto.key });
+    if (user) {
+      throw new UnauthorizedException('이미 등록된 유저입니다');
+    }
+    user = await this.userService.create(createUserDto);
+    const token: TokenDto = await this.authService.createAccessToken({
+      id: user.id,
+      role: user.role,
+    });
+    return new UserRegisteredResponse(user, token);
+  }
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({
-    type: LoginPayloadDto,
-    description: 'User info with access token',
+  @ApiOperation({
+    summary: '로그인 API',
+    description: '로그인하는 API 입니다.',
   })
-  @ApiException(() => [UserNotFoundException])
-  async userLogin(@Body() userLoginDto: UserLoginDto): Promise<LoginPayloadDto> {
-    const userEntity = await this.authService.validateUser(userLoginDto);
-
+  @ApiOkResponse({ description: '로그인 성공시 결과 예시', type: UserLoginedResponse })
+  async login(@Request() req, @Body() userLoginDto: UserLoginDto) {
+    const user: UserEntity = await this.userService.findOneOrFail({ id: userLoginDto.id });
     const token = await this.authService.createAccessToken({
-      userId: userEntity.id,
-      role: userEntity.role,
+      id: user.id,
+      role: user.role,
     });
-
-    return new LoginPayloadDto(userEntity.toDto(), token);
-  }
-
-  @Post('register')
-  @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({ type: UserDto, description: 'Successfully Registered' })
-  @ApiFile({ name: 'avatar' })
-  async userRegister(
-    @Body() userRegisterDto: UserRegisterDto,
-    @UploadedFile() file: IFile,
-  ): Promise<UserDto> {
-    const createdUser = await this.userService.createUser(userRegisterDto, file);
-
-    return createdUser.toDto({
-      isActive: true,
-    });
-  }
-
-  @Version('1')
-  @Get('me')
-  @HttpCode(HttpStatus.OK)
-  @Auth([RoleType.USER, RoleType.ADMIN])
-  @ApiOkResponse({ type: UserDto, description: 'current user info' })
-  getCurrentUser(@AuthUser() user: UserEntity): UserDto {
-    return user.toDto();
+    return new UserLoginedResponse(user, token);
   }
 }

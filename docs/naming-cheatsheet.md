@@ -1,5 +1,4 @@
 # Naming cheatsheet
-
 - [English language](#english-language)
 - [Naming convention](#naming-convention)
 - [S-I-D](#s-i-d)
@@ -12,67 +11,48 @@
     - [Context](#context)
     - [Prefixes](#prefixes)
 - [Singular and Plurals](#singular-and-plurals)
-
 ---
-
 Naming things is hard. This sheet attempts to make it easier.
-
 Although these suggestions can be applied to any programming language, I will use JavaScript to illustrate them in practice.
-
 ## English language
-
 Use English language when naming your variables and functions.
-
 ```js
 /* Bad */
 const primerNombre = 'Gustavo'
 const amigos = ['Kate', 'John']
-
 /* Good */
 const firstName = 'Gustavo'
 const friends = ['Kate', 'John']
 ```
-
 > Like it or not, English is the dominant language in programming: the syntax of all programming languages is written in English, as well as countless documentations and educational materials. By writing your code in English you dramatically increase its cohesiveness.
-
 ## Naming convention
-
 Pick **camelCase** naming convention and follow it.
-
 ```js
 /* Bad */
 const page_count = 5
 const active = true
 const ShouldUpdate = true
-
 /* Good */
 const pageCount = 5
 const isActive = true
 const shouldUpdate = true
 ```
-
 ## S-I-D
-
 A name must be _short_, _intuitive_ and _descriptive_:
-
 - **Short**. A name must not take long to type and, therefore, remember;
 - **Intuitive**. A name must read naturally, as close to the common speech as possible;
 - **Descriptive**. A name must reflect what it does/possesses in the most efficient way.
-
 ```js
 /* Bad */
 const a = 5 // "a" could mean anything
 const isPaginatable = a > 10 // "Paginatable" sounds extremely unnatural
 const shouldPaginatize = a > 10 // Made up verbs are so much fun!
-
 /* Good */
 const postCount = 5
 const hasPagination = postCount > 10
 const shouldPaginate = postCount > 10 // alternatively
 ```
-
 ## Avoid contractions
-
 Do **not** use contractions. They contribute to nothing but decreased readability of the code. Finding a short, descriptive name may be hard, but contraction is not an excuse for not doing so.
 
 ```js
@@ -142,7 +122,7 @@ Take a look at how this pattern may be applied in the table below.
 | `getUser`              |          | `get`      | `User`            |                  |
 | `getUserMessages`      |          | `get`      | `User`            | `Messages`       |
 | `shouldDisplayMessage` | `should` | `Display`  | `Message`         |                  |
-| `isPaymentEnabled`     | `is`     | `Enabled`  | `Payment`         |                  |
+| `isDeliveryEnabled`     | `is`     | `Enabled`  | `Delivery`         |                  |
 
 ---
 

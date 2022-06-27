@@ -1,7 +1,6 @@
 import type { NamingStrategyInterface } from 'typeorm';
 import { DefaultNamingStrategy } from 'typeorm';
 import { snakeCase } from 'typeorm/util/StringUtils';
-
 export class SnakeNamingStrategy
   extends DefaultNamingStrategy
   implements NamingStrategyInterface
@@ -9,7 +8,6 @@ export class SnakeNamingStrategy
   tableName(className: string, customName: string): string {
     return customName ? customName : snakeCase(className);
   }
-
   columnName(
     propertyName: string,
     customName: string,
@@ -20,15 +18,12 @@ export class SnakeNamingStrategy
       (customName ? customName : snakeCase(propertyName))
     );
   }
-
   relationName(propertyName: string): string {
     return snakeCase(propertyName);
   }
-
   joinColumnName(relationName: string, referencedColumnName: string): string {
     return snakeCase(relationName + '_' + referencedColumnName);
   }
-
   joinTableName(
     firstTableName: string,
     secondTableName: string,
@@ -43,7 +38,6 @@ export class SnakeNamingStrategy
         secondTableName,
     );
   }
-
   joinTableColumnName(
     tableName: string,
     propertyName: string,
@@ -53,7 +47,6 @@ export class SnakeNamingStrategy
       tableName + '_' + (columnName ? columnName : propertyName),
     );
   }
-
   classTableInheritanceParentColumnName(
     parentTableName: string,
     parentTableIdPropertyName: string,

@@ -1,6 +1,5 @@
 import type { ValidationOptions } from 'class-validator';
 import { registerDecorator } from 'class-validator';
-
 export function SameAs(
   property: string,
   validationOptions?: ValidationOptions,
@@ -15,7 +14,6 @@ export function SameAs(
       validator: {
         validate(value, args) {
           const [relatedPropertyName] = args!.constraints;
-
           return args?.object[relatedPropertyName] === value;
         },
         defaultMessage() {

@@ -1,25 +1,22 @@
+// Nestjs
 import type { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+// Third party
 import * as fs from 'fs';
-
 export function setupSwagger(app: INestApplication): void {
   const documentBuilder = new DocumentBuilder()
-    .setTitle('API')
+    .setTitle(process.env.SERVICE_TITLE + ' API')
     .setDescription(
       `### REST
-
 Routes is following REST standard (Richardson level 3)
-
 <details><summary>Detailed specification</summary>
 <p>
-
 **List:**
   - \`GET /<resources>/\`
     - Get the list of **<resources>** as admin
   - \`GET /user/<user_id>/<resources>/\`
     - Get the list of **<resources>** for a given **<user_id>**
     - Output a **403** if logged user is not **<user_id>**
-
 **Detail:**
   - \`GET /<resources>/<resource_id>\`
     - Get the detail for **<resources>** of id **<resource_id>**
@@ -30,7 +27,6 @@ Routes is following REST standard (Richardson level 3)
     - Output a **403** if:
       - Logged user is not **<user_id>**
       - The **<user_id>** have no access to **<resource_id>**
-
 **Creation / Edition / Replacement / Suppression:**
   - \`<METHOD>\` is:
     - **POST** for creation
@@ -50,11 +46,9 @@ Routes is following REST standard (Richardson level 3)
 </details>`,
     )
     .addBearerAuth();
-
   if (process.env.API_VERSION) {
     documentBuilder.setVersion(process.env.API_VERSION);
   }
-
   const document = SwaggerModule.createDocument(app, documentBuilder.build());
   SwaggerModule.setup('docs', app, document, {
     swaggerOptions: {
@@ -64,6 +58,5 @@ Routes is following REST standard (Richardson level 3)
     },
   });
   fs.writeFileSync('./swagger-spec.json', JSON.stringify(document));
-
-  console.info(`Documentation: http://localhost:${process.env.PORT}/documentation`);
+  console.info(`Documentation: http://localhost:${process.env.PORT}/docs`);
 }

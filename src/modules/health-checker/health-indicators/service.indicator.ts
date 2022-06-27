@@ -4,7 +4,6 @@ import type { HealthIndicatorResult } from '@nestjs/terminus';
 import { HealthCheckError, HealthIndicator } from '@nestjs/terminus';
 import { firstValueFrom } from 'rxjs';
 import { timeout } from 'rxjs/operators';
-
 @Injectable()
 export class ServiceHealthIndicator extends HealthIndicator {
   constructor(
@@ -14,7 +13,6 @@ export class ServiceHealthIndicator extends HealthIndicator {
   ) {
     super();
   }
-
   async isHealthy(eventName: string): Promise<HealthIndicatorResult> {
     try {
       if (!this.clientProxy) {
@@ -24,14 +22,12 @@ export class ServiceHealthIndicator extends HealthIndicator {
           },
         };
       }
-
       const result = await firstValueFrom(
         this.clientProxy.send(eventName, { check: true }).pipe(timeout(10_000)),
         {
           defaultValue: undefined,
         },
       );
-
       return {
         [eventName]: result,
       };

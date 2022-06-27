@@ -1,139 +1,98 @@
 ---
-to: "src/modules/<%= h.fileName(name) %>/<%= h.serviceFileName(name) %>.ts"
+to: "src/modules/<%= h.name(name) %>/services/<%= h.serviceFileName(name) %>.ts"
 unless_exists: true
-skip_if: <%= !blocks.includes('Service') %>
 ---
 <%
+  // Class
+  ClassName = h.ClassName(name);
 
- ClassName = h.ClassName(name);
- fieldName = h.changeCase.camel(ClassName);
+  // Name
+  NAME = h.NAME(name);
+  SUBNAME = h.SUBNAME(subname);
 
- DtoName = h.DtoName(name);
- dtoFileName = h.dtoFileName(name);
+  // Plural
+  pluralName = h.pluralName(name);
+  subPluralName = h.subPluralName(subname);
 
+  // Module
+  moduleName = h.moduleName(name);
+  ModuleName = h.ModuleName(name);
+  moduleFileName = h.moduleFileName(name);
 
- CreateCommandName = h.CreateCommandName(name);
- createCommandFileName = h.createCommandFileName(name);
+  // Service
+  ServiceName = h.ServiceName(name);
+  serviceName = h.serviceName(name);
+  serviceFileName = h.serviceFileName(name);
+  SubServiceName = h.SubServiceName(subname);
+  subServiceFileName = h.subServiceFileName(subname);
 
+  // Dto
+  DtoName = h.DtoName(name);
+  dtoFileName = h.dtoFileName(name);
+  CreateDtoName = h.CreateDtoName(name);
+  createDtoFileName = h.createDtoFileName(name);
+  UpdateDtoName = h.UpdateDtoName(name);
+  updateDtoFileName = h.updateDtoFileName(name);
 
- EntityName = h.EntityName(name);
- entityName = h.changeCase.camel(EntityName);
- entityFileName = h.entityFileName(name);
+  // Entity
+  EntityName = h.EntityName(name);
+  entityFileName = h.entityFileName(name);
+  SubEntityName = h.SubEntityName(subname);
+  subEntityFileName = h.subEntityFileName(subname);
 
- ServiceName = h.ServiceName(name);
+  // Repository
+  RepositoryName = h.RepositoryName(name);
+  repositoryName = h.repositoryName(name);
+  repositoryFileName = h.repositoryFileName(name);
+  SubRepositoryName = h.SubRepositoryName(subname);
+  subRepositoryName = h.subRepositoryName(subname);
+  subRepositoryFileName = h.subRepositoryFileName(subname);
 
- UpdateDtoName = h.UpdateDtoName(name);
- updateDtoFileName = h.updateDtoFileName(name);
- updateDtoName = h.changeCase.camel(UpdateDtoName);
+  // Subscriber
+  SubscriberName = h.SubscriberName(name);
+  subscriberFileName = h.subscriberFileName(name);
+  SubSubscriberName = h.SubSubscriberName(subname);
+  subSubscriberFileName = h.subSubscriberFileName(subname);
 
- fileName = h.fileName(name);
+  // Controller
+  ControllerName = h.ControllerName(name);
+  controllerFileName = h.controllerFileName(name);
 
- RepositoryName = h.RepositoryName(name);
- repositoryName = h.changeCase.camel(RepositoryName);
- repositoryFileName = h.repositoryFileName(name);
+  SubControllerName = h.SubControllerName(subname);
+  subControllerFileName = h.subControllerFileName(subname);
 
- NotFoundExceptionName = h.NotFoundExceptionName(name);
- notFoundExceptionFileName = h.notFoundExceptionFileName(name);
+  // Response
+  responseFileName = h.responseFileName(name);
 
- createFunctionName = 'create' + ClassName;
- updateFunctionName = 'update' + ClassName;
- deleteFunctionName = 'delete' + ClassName;
- getAllFunctionName = 'getAll' + ClassName;
- getSingleFunctionName = 'getSingle' + ClassName;
- controllerName = moduleName + 'Controller';
- serviceName = moduleName + 'Service';
- CreateDtoName = h.CreateDtoName(name);
- createDtoFileName = h.createDtoFileName(name);
+  subResponseFileName = h.subResponseFileName(subname);
 
- PageOptionsDtoName = h.PageOptionsDtoName(name);
- pageOptionsDtoName = h.changeCase.camel(PageOptionsDtoName);
- pageOptionsDtoFileName = h.pageOptionsDtoFileName(name);
+  // Response
+  resourceName = h.resourceName(name);
+  resourceFileName = h.resourceFileName(name);
 
-%>import { Injectable } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
-import { Transactional } from 'typeorm-transactional-cls-hooked';
+  // Resource Options
+  resourceOptionsName = h.resourceOptionsName(name);
+  resourceOptionsFileName = h.resourceOptionsFileName(name);
+%>// Nestjs
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import type { PageDto } from '../../common/dto/page.dto';
-import { ValidatorService } from '../../shared/services/validator.service';
-import { <%= CreateCommandName %> } from './commands/<%= createCommandFileName %>';
-import type { <%= DtoName %> } from './dtos/<%= dtoFileName %>';
-import type { <%= PageOptionsDtoName %> } from './dtos/<%= pageOptionsDtoFileName %>';
-import { <%= NotFoundExceptionName %> } from './exceptions/<%= notFoundExceptionFileName %>';
-import type { <%= EntityName %> } from './<%= entityFileName %>';
-import { <%= RepositoryName %> } from './<%= repositoryFileName %>';
-import { <%= CreateDtoName %> } from './dtos/<%= createDtoFileName %>';
-import type { <%= UpdateDtoName %> } from './dtos/<%= updateDtoFileName %>';
+// Repository
+import { <%= RepositoryName %> } from '../repositories/<%= repositoryFileName %>';
 
+// Service
+import { CrudService } from '../../../common/crud.service';
+
+// Entity
+import { <%= EntityName %> } from '../entities/<%= entityFileName %>';
+
+// Main section
 @Injectable()
-export class <%= ServiceName %> {
+export class <%= ServiceName %> extends CrudService<<%= EntityName %>> {
   constructor(
+    @InjectRepository(<%= RepositoryName %>)
     private <%= repositoryName %>: <%= RepositoryName %>,
-    private validatorService: ValidatorService,
-    private commandBus: CommandBus,
-  ) {}
-
-  @Transactional()
-  <%= createFunctionName %>(<%= createDtoName %>: <%= CreateDtoName %>): Promise<<%= EntityName %>> {
-    return this.commandBus.execute<<%= CreateCommandName %>, <%= EntityName %>>(
-      new <%= CreateCommandName %>(<%= createDtoName %>),
-    );
-  }
-
-  async <%= getAllFunctionName %>(
-    <%= pageOptionsDtoName %>: <%= PageOptionsDtoName %>,
-  ): Promise<PageDto<<%= DtoName %>>> {
-    const queryBuilder = this.<%= repositoryName %>
-      .createQueryBuilder('<%= fieldName %>')
-      .leftJoinAndSelect('<%= fieldName %>.translations', '<%= fieldName %>Translation');
-    const [items, pageMetaDto] = await queryBuilder.paginate(<%= pageOptionsDtoName %>);
-
-    return items.toPageDto(pageMetaDto);
-  }
-
-  async <%= getSingleFunctionName %>(id: Uuid): Promise<<%= EntityName %>> {
-    const queryBuilder = this.<%= repositoryName %>
-      .createQueryBuilder('<%= fieldName %>')
-      .where('<%= fieldName %>.id = :id', { id });
-
-    const <%= entityName %> = await queryBuilder.getOne();
-
-    if (!<%= entityName %>) {
-      throw new <%= NotFoundExceptionName %>();
-    }
-
-    return <%= entityName %>;
-  }
-
-  async <%= updateFunctionName %>(
-    id: Uuid,
-    <%= updateDtoName %>: <%= UpdateDtoName %>,
-  ): Promise<void> {
-    const queryBuilder = this.<%= repositoryName %>
-      .createQueryBuilder('<%= fieldName %>')
-      .where('<%= fieldName %>.id = :id', { id });
-
-    const <%= entityName %> = await queryBuilder.getOne();
-
-    if (!<%= entityName %>) {
-      throw new <%= NotFoundExceptionName %>();
-    }
-
-    this.<%= repositoryName %>.merge(<%= entityName %>, <%= updateDtoName %>);
-
-    await this.<%= repositoryName %>.save(<%= updateDtoName %>);
-  }
-
-  async <%= deleteFunctionName %>(id: Uuid): Promise<void> {
-    const queryBuilder = this.<%= repositoryName %>
-      .createQueryBuilder('<%= fieldName %>')
-      .where('<%= fieldName %>.id = :id', { id });
-
-    const <%= entityName %> = await queryBuilder.getOne();
-
-    if (!<%= entityName %>) {
-      throw new <%= NotFoundExceptionName %>();
-    }
-
-    await this.<%= repositoryName %>.remove(<%= entityName %>);
+  ) {
+    super( <%= repositoryName %> );
   }
 }

@@ -1,7 +1,3 @@
-import dotenv from 'dotenv';
-
-dotenv.config({ path: `.envs/.${process.env.ENVIRONMENT}/.env` });
-
 const translations = {
   actions: {
     new: '새로 생성',
@@ -34,6 +30,12 @@ const translations = {
     loginWelcome: `${process.env.SERVICE_TITLE || '어드민'}에 오신 것을 환영합니다!`,
     dashboard: '대시보드',
     UserEntity: '유저',
+    SellerEntity: '판매자',
+    BuyerEntity: '구매자',
+    DeliveryEntity: '결제내역',
+    DeliveryPrepareEntity: '사전결제내역',
+    DeliveryCancelEntity: '결제취소내역',
+    CardEntity: '카드',
   },
   properties: {
     length: '길이',
@@ -96,7 +98,6 @@ const translations = {
     invalidCredentials: '잘못된 이메일 또는 비밀번호입니다.',
   },
 };
-
 export default {
   language: 'kr',
   translations,

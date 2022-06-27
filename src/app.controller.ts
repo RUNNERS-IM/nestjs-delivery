@@ -2,9 +2,7 @@ import { Controller, Get, Res } from '@nestjs/common';
 import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiOkResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
 import { Response } from 'express';
-
 import { ApiTag } from './constants/api-tag';
-
 @Controller()
 @ApiTags(ApiTag.DEFAULT)
 export class AppController {
