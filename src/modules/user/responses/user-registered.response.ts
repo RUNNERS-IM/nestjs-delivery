@@ -1,10 +1,12 @@
 // Constant
 import { ApiProperty } from '@nestjs/swagger';
+
 // Dto
 // Entity
 import { UserEntity } from '../entities/user.entity';
 import { TokenDto } from '../../auth/dtos/token.dto';
 import { UserTokenDto } from '../dtos/user-token.dto';
+
 // Main section
 export class UserRegisteredResponse {
   @ApiProperty({ default: 201 })

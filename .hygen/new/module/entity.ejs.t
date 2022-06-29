@@ -1,18 +1,21 @@
 ---
-to: "src/modules/<%= h.name(name) %>/entities/<%= h.entityFileName(name) %>.ts"
+to: "src/modules/<%= h.filename(name) %>/entities/<%= h.entityFileName(name) %>.ts"
 unless_exists: true
 ---
 <%
   // Class
   ClassName = h.ClassName(name);
+  SubClassName = h.ClassName(subname);
 
   // Name
+  name = h.name(name);
+  subname = h.name(subname);
   NAME = h.NAME(name);
-  SUBNAME = h.SUBNAME(subname);
+  SUBNAME = h.NAME(subname);
 
   // Plural
   pluralName = h.pluralName(name);
-  subPluralName = h.subPluralName(subname);
+  subPluralName = h.pluralName(subname);
 
   // Module
   moduleName = h.moduleName(name);
@@ -21,71 +24,110 @@ unless_exists: true
 
   // Service
   ServiceName = h.ServiceName(name);
+  SubServiceName = h.ServiceName(subname);
   serviceName = h.serviceName(name);
+  subServiceName = h.serviceName(subname);
   serviceFileName = h.serviceFileName(name);
-  SubServiceName = h.SubServiceName(subname);
-  subServiceFileName = h.subServiceFileName(subname);
+  subServiceFileName = h.serviceFileName(subname);
 
   // Dto
   DtoName = h.DtoName(name);
+  SubDtoName = h.DtoName(subname);
   dtoFileName = h.dtoFileName(name);
+  subDtoFileName = h.dtoFileName(subname);
+
+  // Create Dto
   CreateDtoName = h.CreateDtoName(name);
+  SubCreateDtoName = h.CreateDtoName(subname);
+  createDtoName = h.createDtoName(name);
+  subCreateDtoName = h.createDtoName(subname);
   createDtoFileName = h.createDtoFileName(name);
+  subCreateDtoFileName = h.createDtoFileName(subname);
+
+  // Update Dto
   UpdateDtoName = h.UpdateDtoName(name);
+  SubUpdateDtoName = h.UpdateDtoName(subname);
+  updateDtoName = h.updateDtoName(name);
+  subUpdateDtoName = h.updateDtoName(subname);
   updateDtoFileName = h.updateDtoFileName(name);
+  subUpdateDtoFileName = h.updateDtoFileName(subname);
 
   // Entity
   EntityName = h.EntityName(name);
+  SubEntityName = h.EntityName(subname);
   entityFileName = h.entityFileName(name);
-  SubEntityName = h.SubEntityName(subname);
-  subEntityFileName = h.subEntityFileName(subname);
+  subEntityFileName = h.entityFileName(subname);
 
   // Repository
   RepositoryName = h.RepositoryName(name);
+  SubRepositoryName = h.RepositoryName(subname);
   repositoryName = h.repositoryName(name);
+  subRepositoryName = h.repositoryName(subname);
   repositoryFileName = h.repositoryFileName(name);
-  SubRepositoryName = h.SubRepositoryName(subname);
-  subRepositoryName = h.subRepositoryName(subname);
-  subRepositoryFileName = h.subRepositoryFileName(subname);
+  subRepositoryFileName = h.repositoryFileName(subname);
 
   // Subscriber
   SubscriberName = h.SubscriberName(name);
+  SubSubscriberName = h.SubscriberName(subname);
   subscriberFileName = h.subscriberFileName(name);
-  SubSubscriberName = h.SubSubscriberName(subname);
-  subSubscriberFileName = h.subSubscriberFileName(subname);
+  subSubscriberFileName = h.subscriberFileName(subname);
 
   // Controller
   ControllerName = h.ControllerName(name);
+  SubControllerName = h.ControllerName(subname);
   controllerFileName = h.controllerFileName(name);
-
-  SubControllerName = h.SubControllerName(subname);
-  subControllerFileName = h.subControllerFileName(subname);
+  subControllerFileName = h.controllerFileName(subname);
 
   // Response
   responseFileName = h.responseFileName(name);
+  subResponseFileName = h.responseFileName(subname);
 
-  subResponseFileName = h.subResponseFileName(subname);
-
-  // Response
+  // Resource
   resourceName = h.resourceName(name);
+  subResourceName = h.resourceName(subname);
   resourceFileName = h.resourceFileName(name);
-
-  // Resource Options
+  subResourceFileName = h.resourceFileName(subname);
   resourceOptionsName = h.resourceOptionsName(name);
+  subResourceOptionsName = h.resourceOptionsName(subname);
   resourceOptionsFileName = h.resourceOptionsFileName(name);
+  subResourceOptionsFileName = h.resourceOptionsFileName(subname);
+
+  // Function
+  createFunctionName = 'create' + ClassName;
+  subCreateFunctionName = 'create' + SubClassName;
+
+  updateFunctionName = 'update' + ClassName;
+  subUpdateFunctionName = 'update' + SubClassName;
+
+  partialUpdateFunctionName = 'partialUpdate' + ClassName;
+  subPartialUpdateFunctionName = 'partialUpdate' + SubClassName;
+
+  deleteFunctionName = 'delete' + ClassName;
+  subDeleteFunctionName = 'delete' + SubClassName;
+
+  getAllFunctionName = 'get' + ClassName;
+  subGetAllFunctionName = 'get' + SubClassName;
+
+  getOneFunctionName = 'getOne' + ClassName;
+  subGetOneFunctionName = 'getOne' + SubClassName;
 %>// Nestjs
 import { ApiProperty } from '@nestjs/swagger';
+
 // Typeorm
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+
 // Third party
 import { Exclude, Type } from 'class-transformer';
 import { IsInt, IsPositive, IsString, IsUUID, Max, Min, ValidateNested } from 'class-validator';
+
 // Constants
 import { sampleUuid } from '../../../constants/sample';
+
 // Entity
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { <%= SubEntityName %> } from './<%= subEntityFileName %>';
+
 // Main section
 @Entity({ name: '<%= pluralName %>' })
 export class <%= EntityName %> extends AbstractEntity {
@@ -95,6 +137,7 @@ export class <%= EntityName %> extends AbstractEntity {
   @ManyToOne(() => UserEntity, (user) => user.<%= pluralName %>)
   @JoinColumn({ name: 'userId' })
   user: UserEntity;
+
   @Type()
   @ApiProperty({ type: 'string', description: '유저의 uuid', default: sampleUuid })
   @IsUUID()
@@ -112,6 +155,7 @@ export class <%= EntityName %> extends AbstractEntity {
   @IsString()
   @Column({ nullable: true })
   title: string;
+
   @ApiProperty({ type: 'number', description: '숫자', default: 0 })
   @Exclude({ toPlainOnly: true })
   @IsInt()

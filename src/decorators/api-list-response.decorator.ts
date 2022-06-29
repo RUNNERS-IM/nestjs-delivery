@@ -1,8 +1,10 @@
 // Nestjs
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, ApiResponseOptions, getSchemaPath } from '@nestjs/swagger';
+
 // Third party
 import { Paginated } from 'nestjs-paginate/lib/paginate';
+
 // Main Section
 export const ApiListResponse = <TModel extends Type<any>>(
   model: TModel,

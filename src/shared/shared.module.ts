@@ -2,8 +2,10 @@
 import { HttpModule } from '@nestjs/axios';
 import { Global, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
+
 // Module
 import { ConfigModule } from '@nestjs/config';
+
 // Services
 import { ApiConfigService } from './services/api-config.service';
 import { AwsS3Service } from './services/aws-s3.service';
@@ -14,6 +16,7 @@ import { IamportService } from './services/iamport.service';
 import { CryptoService } from './services/crypto.service';
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
 import path from 'path';
+
 // Main section
 const providers = [
   ApiConfigService,

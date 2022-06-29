@@ -12,16 +12,16 @@
     - [Run](#run)
 ## First-time setup
 Make sure you have the following installed:
-- [Node](https://nodejs.org/en/) (at least the latest LTS)
-- [Yarn](https://yarnpkg.com/lang/en/docs/install/) (at least 1.0)
+- [Node](https:// nodejs.org/en/) (at least the latest LTS)
+- [Yarn](https:// yarnpkg.com/lang/en/docs/install/) (at least 1.0)
 ## Installation
 ```bash
 # Install dependencies from package.json
 yarn install
 ```
-> Note: don't delete yarn.lock before installation, See more [in yarn docs](https://classic.yarnpkg.com/en/docs/yarn-lock/)
+> Note: don't delete yarn.lock before installation, See more [in yarn docs](https:// classic.yarnpkg.com/en/docs/yarn-lock/)
 ### Database
-> Note: Awesome NestJS Boilerplate uses [TypeORM](https://github.com/typeorm/typeorm) with Data Mapper pattern.
+> Note: Awesome NestJS Boilerplate uses [TypeORM](https:// github.com/typeorm/typeorm) with Data Mapper pattern.
 ### Configuration
 Before start install PostgreSQL and fill correct configurations in `.env` file
 ```env
@@ -41,7 +41,7 @@ yarn schema:drop
 yarn migration:generate migration_name
 ```
 ### Dev server
-> Note: If you're on Linux and see an `ENOSPC` error when running the commands below, you must [increase the number of available file watchers](https://stackoverflow.com/questions/22475849/node-js-error-enospc#answer-32600959).
+> Note: If you're on Linux and see an `ENOSPC` error when running the commands below, you must [increase the number of available file watchers](https:// stackoverflow.com/questions/22475849/node-js-error-enospc#answer-32600959).
 ```bash
 # Launch the dev server
 yarn start:dev
@@ -61,16 +61,16 @@ nest generate service users
 # Generate a new class
 nest g class users
 ```
-> Note: if you love generators then you can find full list of command in official [Nest-cli Docs](https://docs.nestjs.com/cli/usages#generate-alias-g).
+> Note: if you love generators then you can find full list of command in official [Nest-cli Docs](https:// docs.nestjs.com/cli/usages#generate-alias-g).
 ## Docker
-if you are familiar with [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose) then you can run built in docker-compose file, which will install and configure application and database for you.
+if you are familiar with [docker](https:// www.docker.com/) and [docker-compose](https:// docs.docker.com/compose) then you can run built in docker-compose file, which will install and configure application and database for you.
 ### Docker installation
 Download docker from Official website
-- Mac <https://docs.docker.com/docker-for-mac/install/>
-- Windows <https://docs.docker.com/docker-for-windows/install/>
-- Ubuntu <https://docs.docker.com/install/linux/docker-ce/ubuntu/>
+- Mac <https:// docs.docker.com/docker-for-mac/install/>
+- Windows <https:// docs.docker.com/docker-for-windows/install/>
+- Ubuntu <https:// docs.docker.com/install/linux/docker-ce/ubuntu/>
 ### Docker-compose installation
-Download docker from [Official website](https://docs.docker.com/compose/install)
+Download docker from [Official website](https:// docs.docker.com/compose/install)
 ### Run
 
 Open terminal and navigate to project directory and run the following command.
@@ -79,9 +79,9 @@ Open terminal and navigate to project directory and run the following command.
 PORT=3000 docker-compose up
 ```
 
-> Note: application will run on port 3000 (<http://localhost:3000>)
+> Note: application will run on port 3000 (<http:// localhost:3000>)
 
-Navigate to <http://localhost:8080> and connect to you database with the following configurations
+Navigate to <http:// localhost:8080> and connect to you database with the following configurations
 
 ```text
 host: postgres

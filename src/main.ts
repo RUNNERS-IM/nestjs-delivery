@@ -1,4 +1,5 @@
 require('./env');
+
 // Nestjs
 import {
   ClassSerializerInterceptor,
@@ -10,6 +11,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { ExpressAdapter } from '@nestjs/platform-express';
+
 // Third party
 import compression from 'compression';
 import { middleware as expressCtx } from 'express-ctx';
@@ -20,16 +22,20 @@ import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
+
 // Filter
 import { HttpExceptionFilter } from './filters/bad-request.filter';
 import { QueryFailedFilter } from './filters/query-failed.filter';
+
 // Module
 import { AppModule } from './app.module';
 import { SharedModule } from './shared/shared.module';
+
 // Service
 import { ApiConfigService } from './shared/services/api-config.service';
 import { TranslationService } from './shared/services/translation.service';
 import { TranslationInterceptor } from './interceptors/translation-interceptor.service';
+
 // Swagger
 import { setupSwagger } from './setup-swagger';
 

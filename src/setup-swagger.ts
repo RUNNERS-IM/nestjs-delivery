@@ -1,6 +1,7 @@
 // Nestjs
 import type { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
 // Third party
 import * as fs from 'fs';
 export function setupSwagger(app: INestApplication): void {
@@ -58,5 +59,5 @@ Routes is following REST standard (Richardson level 3)
     },
   });
   fs.writeFileSync('./swagger-spec.json', JSON.stringify(document));
-  console.info(`Documentation: http://localhost:${process.env.PORT}/docs`);
+  console.info(`Documentation: http:// localhost:${process.env.PORT}/docs`);
 }

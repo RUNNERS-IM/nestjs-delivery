@@ -1,8 +1,8 @@
 # NestJS Delivery
 
-[![NestJS Delivery](https://img.shields.io/badge/NestJS-Delivery-red.svg?longCache=true&style=flat-square)](https://github.com/juliandavidmr/awesome-nestjs)
-[![Awesome NestJS](https://img.shields.io/badge/Awesome-NestJS-blue.svg?longCache=true&style=flat-square)](https://github.com/juliandavidmr/awesome-nestjs)
-> 이 프로젝트는 [NestJS](https://nestjs.com)와 [Iamport](https://www.iamport.kr)를 이용하여 PG결제, 카드결제, 취소 등 결제 API를 구현한 서버입니다.
+[![NestJS Delivery](https:// img.shields.io/badge/NestJS-Delivery-red.svg?longCache=true&style=flat-square)](https:// github.com/juliandavidmr/awesome-nestjs)
+[![Awesome NestJS](https:// img.shields.io/badge/Awesome-NestJS-blue.svg?longCache=true&style=flat-square)](https:// github.com/juliandavidmr/awesome-nestjs)
+> 이 프로젝트는 [NestJS](https:// nestjs.com)와 [Iamport](https:// www.iamport.kr)를 이용하여 PG결제, 카드결제, 취소 등 결제 API를 구현한 서버입니다.
 
 ## 시작하기
 
@@ -13,7 +13,7 @@ npx degit KimSunWook/nestjs-delivery my-nest-app
 # 2. Enter your newly-cloned folder.
 cd my-nest-app
 
-# 3. Install dependencies. (Make sure yarn is installed: https://yarnpkg.com/lang/en/docs/install)
+# 3. Install dependencies. (Make sure yarn is installed: https:// yarnpkg.com/lang/en/docs/install)
 yarn
 ```
 
@@ -32,7 +32,7 @@ And, enjoy :)
 
 ### Development
 ```bash
-# 4. Run development server and open http://localhost:3000
+# 4. Run development server and open http:// localhost:3000
 yarn start:dev
 
 # 5. Read the documentation linked below for "Setup and development".
@@ -70,7 +70,7 @@ And you will see the generated file in `dist` that ready to be served.
   <dd>development, staging and production environment configurations</dd>
 
   <dt><b>Swagger Api Documentation</b></dt>
-  <dd>Already integrated API documentation. To see all available endpoints visit http://localhost:3000/documentation</dd>
+  <dd>Already integrated API documentation. To see all available endpoints visit http:// localhost:3000/documentation</dd>
 
   <dt><b>Linter</b></dt>  
   <dd>eslint + prettier = ❤️</dd>
@@ -80,6 +80,6 @@ And you will see the generated file in `dist` that ready to be served.
 
 This project includes a `docs` folder with more details on:
 
-1.  [Setup and development](https://narhakobyan.github.io/awesome-nest-boilerplate/docs/development.html#first-time-setup)
-1.  [Architecture](https://narhakobyan.github.io/awesome-nest-boilerplate/docs/architecture.html)
-1.  [Naming Cheatsheet](https://narhakobyan.github.io/awesome-nest-boilerplate/docs/naming-cheatsheet.html)
+1.  [Setup and development](https:// narhakobyan.github.io/awesome-nest-boilerplate/docs/development.html#first-time-setup)
+1.  [Architecture](https:// narhakobyan.github.io/awesome-nest-boilerplate/docs/architecture.html)
+1.  [Naming Cheatsheet](https:// narhakobyan.github.io/awesome-nest-boilerplate/docs/naming-cheatsheet.html)

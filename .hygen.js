@@ -6,27 +6,23 @@ module.exports = {
       return this.changeCase.pascal(name);
     },
 
-    // File
+    // Name
     name(name) {
-      return this.inflection.dasherize(name).toLowerCase();
-    },
-    subname(subname) {
-      return this.inflection.dasherize(subname).toLowerCase();
+      return this.changeCase.camelCase(this.inflection.dasherize(name));
     },
 
     NAME(name) {
-      return this.inflection.dasherize(name).toUpperCase();
-    },
-    SUBNAME(subname) {
-      return this.inflection.dasherize(subname).toUpperCase();
+      return this.name(name).toUpperCase();
     },
 
     // Plural
     pluralName(name) {
-      return this.inflection.pluralize(this.inflection.dasherize(name)).toLowerCase();
+      return this.changeCase.camel(this.inflection.pluralize(this.inflection.dasherize(name)));
     },
-    subPluralName(subname) {
-      return this.inflection.pluralize(this.inflection.dasherize(subname)).toLowerCase();
+
+    // File
+    filename(name) {
+      return this.changeCase.paramCase(name);
     },
 
     // Module
@@ -37,7 +33,7 @@ module.exports = {
       return `${this.ClassName(name)}Module`;
     },
     moduleFileName(name) {
-      return `${this.name(name)}.module`;
+      return `${this.filename(name)}.module`;
     },
 
     // Service
@@ -48,17 +44,7 @@ module.exports = {
       return `${this.ClassName(name).toLowerCase()}Service`;
     },
     serviceFileName(name) {
-      return `${this.name(name)}.service`;
-    },
-
-    SubServiceName(subname) {
-      return `${this.ClassName(subname)}Service`;
-    },
-    subServiceName(subname) {
-      return `${this.ClassName(subname).toLowerCase()}Service`;
-    },
-    subServiceFileName(subname) {
-      return `${this.name(subname)}.service`;
+      return `${this.filename(name)}.service`;
     },
 
     // Dto
@@ -66,7 +52,7 @@ module.exports = {
       return `${this.ClassName(name)}Dto`;
     },
     dtoFileName(name) {
-      return `${this.name(name)}.dto`;
+      return `${this.filename(name)}.dto`;
     },
 
     CreateDtoName(name) {
@@ -76,7 +62,7 @@ module.exports = {
       return `create${this.DtoName(name)}`;
     },
     createDtoFileName(name) {
-      return `create-${this.name(name)}.dto`;
+      return `create-${this.filename(name)}.dto`;
     },
 
     UpdateDtoName(name) {
@@ -86,34 +72,14 @@ module.exports = {
       return `update${this.DtoName(name)}`;
     },
     updateDtoFileName(name) {
-      return `update-${this.name(name)}.dto`;
+      return `update-${this.filename(name)}.dto`;
     },
 
     SubDtoName(subname) {
       return `${this.ClassName(subname)}Dto`;
     },
     subDtoFileName(subname) {
-      return `${this.name(subname)}.dto`;
-    },
-
-    SubCreateDtoName(subname) {
-      return `Create${this.DtoName(subname)}`;
-    },
-    subCreateDtoName(subname) {
-      return `create${this.DtoName(subname)}`;
-    },
-    subCreateDtoFileName(subname) {
-      return `create-${this.name(subname)}.dto`;
-    },
-
-    SubUpdateDtoName(subname) {
-      return `Update${this.DtoName(subname)}`;
-    },
-    subUpdateDtoName(subname) {
-      return `update${this.DtoName(subname)}`;
-    },
-    subUpdateDtoFileName(subname) {
-      return `update-${this.name(subname)}.dto`;
+      return `${this.filename(subname)}.dto`;
     },
 
     // Entity
@@ -121,14 +87,7 @@ module.exports = {
       return `${this.ClassName(name)}Entity`;
     },
     entityFileName(name) {
-      return `${this.name(name)}.entity`;
-    },
-
-    SubEntityName(subname) {
-      return `${this.ClassName(subname)}Entity`;
-    },
-    subEntityFileName(subname) {
-      return `${this.name(subname)}.entity`;
+      return `${this.filename(name)}.entity`;
     },
 
     // Repository
@@ -139,17 +98,7 @@ module.exports = {
       return `${this.ClassName(name).toLowerCase()}Repository`;
     },
     repositoryFileName(name) {
-      return `${this.name(name)}.repository`;
-    },
-
-    SubRepositoryName(subname) {
-      return `${this.ClassName(subname)}Repository`;
-    },
-    subRepositoryName(subname) {
-      return `${this.ClassName(subname).toLowerCase()}Repository`;
-    },
-    subRepositoryFileName(subname) {
-      return `${this.name(subname)}.repository`;
+      return `${this.filename(name)}.repository`;
     },
 
     // Subscriber
@@ -157,14 +106,7 @@ module.exports = {
       return `${this.ClassName(name)}Subscriber`;
     },
     subscriberFileName(name) {
-      return `${this.name(name)}.subscriber`;
-    },
-
-    SubSubscriberName(subname) {
-      return `${this.ClassName(subname)}Subscriber`;
-    },
-    subSubscriberFileName(subname) {
-      return `${this.name(subname)}.subscriber`;
+      return `${this.filename(name)}.subscriber`;
     },
 
     // Controller
@@ -172,23 +114,12 @@ module.exports = {
       return `${this.ClassName(name)}Controller`;
     },
     controllerFileName(name) {
-      return `${this.name(name)}.controller`;
-    },
-
-    SubControllerName(subname) {
-      return `${this.ClassName(subname)}Controller`;
-    },
-    subControllerFileName(subname) {
-      return `${this.name(subname)}.controller`;
+      return `${this.filename(name)}.controller`;
     },
 
     // Response
     responseFileName(name) {
-      return `${this.name(name)}.response`;
-    },
-
-    subResponseFileName(subname) {
-      return `${this.name(subname)}.response`;
+      return `${this.filename(name)}.response`;
     },
 
     // Resource
@@ -196,26 +127,13 @@ module.exports = {
       return `${this.name(name)}Resource`;
     },
     resourceFileName(name) {
-      return `${this.name(name)}.resource`;
+      return `${this.filename(name)}.resource`;
     },
     resourceOptionsName(name) {
       return `${this.name(name)}ResourceOptions`;
     },
     resourceOptionsFileName(name) {
-      return `${this.name(name)}.response.options`;
-    },
-
-    subResourceName(subname) {
-      return `${this.name(subname)}Resource`;
-    },
-    subResourceFileName(subname) {
-      return `${this.name(subname)}.resource`;
-    },
-    subResourceOptionsName(subname) {
-      return `${this.name(subname)}ResourceOptions`;
-    },
-    subResourceOptionsFileName(subname) {
-      return `${this.name(subname)}.response.options`;
+      return `${this.filename(name)}.response.options`;
     },
   },
 };

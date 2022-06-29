@@ -28,7 +28,7 @@ Staged files are automatically linted and tested before each commit. See `lint-s
 In supported editors, all files will be linted and show under the linter errors section.
 ## Configuration
 This boilerplate ships with opinionated defaults, but you can edit each tools configuration in the following config files:
-- [ESLint](https://eslint.org/docs/user-guide/configuring)
+- [ESLint](https:// eslint.org/docs/user-guide/configuring)
   - `.eslintrc.js`
   - `.eslintignore`
 ## FAQ

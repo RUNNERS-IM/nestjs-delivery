@@ -1,3 +1,3 @@
 export enum ApiUrl {
-  IAMPORT = 'https://api.iamport.kr/',
+  IAMPORT = 'https:// api.iamport.kr/',
 }

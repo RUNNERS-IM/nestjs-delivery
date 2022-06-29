@@ -1,9 +1,7 @@
 export enum ApiTag {
   DEFAULT = '[0] 기본 (Default)',
-  AUTH = '[1] 인증 (Auth): 완료',
-  USER = '[2] 유저 (User): 완료',
-  CARD = '[3] 카드 등록 (Card): 완료',
-  PAYMENT_PREPARE = '[4] 사전결제 (DeliveryPrepare): 완료',
-  PAYMENT = '[5] 결제 (Delivery): 완료',
-  PAYMENT_CANCEL = '[6] 결제취소 (DeliveryCancel): 진행중',
+  AUTH = '[1] 인증 (Auth)',
+  USER = '[2] 유저 (User)',
+  DELIVERY = '[3] 배송 (Delivery)',
+  DELIVERYHISTORY = '[4] 배송내역 (DeliveryHistory)',
 }

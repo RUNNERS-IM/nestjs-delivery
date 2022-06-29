@@ -1,5 +1,6 @@
 // Nestjs
 import { ApiPropertyOptional } from '@nestjs/swagger';
+
 // Response
 import {
   CreateResponse,
@@ -7,8 +8,10 @@ import {
   RetrieveResponse,
   UpdateResponse,
 } from '../../../constants/response';
+
 // Entity
 import { UserEntity } from '../entities/user.entity';
+
 // Main section
 export class UserCreateResponse extends CreateResponse<UserEntity> {
   @ApiPropertyOptional({ type: UserEntity })

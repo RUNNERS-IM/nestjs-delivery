@@ -1,10 +1,13 @@
 // Constant
 import { ApiProperty } from '@nestjs/swagger';
+
 // Dto
 import { TokenDto } from '../../auth/dtos/token.dto';
+
 // Entity
 import { UserEntity } from '../entities/user.entity';
 import { UserTokenDto } from '../dtos/user-token.dto';
+
 // Main section
 export class UserLoginedResponse {
   @ApiProperty({ default: 200 })

@@ -1,8 +1,10 @@
 // Nestjs
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, ApiResponseOptions, getSchemaPath } from '@nestjs/swagger';
+
 // Third party
 import { Paginated } from 'nestjs-paginate/lib/paginate';
+
 // Main Section
 export const ApiPaginatedResponse = <TModel extends Type<any>>(
   model: TModel,
@@ -40,27 +42,27 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(
                   first: {
                     type: 'string',
                     default:
-                      'https://admin.labcode.kr/adm/v1/entity?page=1&limit=20&sortBy=id:DESC&search=가나다',
+                      'https:// admin.labcode.kr/adm/v1/entity?page=1&limit=20&sortBy=id:DESC&search=가나다',
                   },
                   previous: {
                     type: 'string',
                     default:
-                      'https://admin.labcode.kr/adm/v1/entity?page=5&limit=20&sortBy=id:DESC&search=가나다',
+                      'https:// admin.labcode.kr/adm/v1/entity?page=5&limit=20&sortBy=id:DESC&search=가나다',
                   },
                   current: {
                     type: 'string',
                     default:
-                      'https://admin.labcode.kr/adm/v1/entity?page=6&limit=20&sortBy=id:DESC&search=가나다',
+                      'https:// admin.labcode.kr/adm/v1/entity?page=6&limit=20&sortBy=id:DESC&search=가나다',
                   },
                   next: {
                     type: 'string',
                     default:
-                      'https://admin.labcode.kr/adm/v1/entity?page=7&limit=20&sortBy=id:DESC&search=가나다',
+                      'https:// admin.labcode.kr/adm/v1/entity?page=7&limit=20&sortBy=id:DESC&search=가나다',
                   },
                   last: {
                     type: 'string',
                     default:
-                      'https://admin.labcode.kr/adm/v1/entity?page=50&limit=20&sortBy=id:DESC&search=가나다',
+                      'https:// admin.labcode.kr/adm/v1/entity?page=50&limit=20&sortBy=id:DESC&search=가나다',
                   },
                 },
               },

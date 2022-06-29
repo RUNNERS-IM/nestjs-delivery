@@ -2,6 +2,7 @@
 // Typeorm
 import { Connection, EntitySubscriberInterface, EventSubscriber, InsertEvent } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
+
 // Axios
 // Main section
 @EventSubscriber()

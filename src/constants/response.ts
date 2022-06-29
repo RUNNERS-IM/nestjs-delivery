@@ -1,9 +1,11 @@
 // Nestjs
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
 // Type section
 declare type Column<T> = Extract<keyof T, string>;
 declare type Order<T> = [Column<T>, 'ASC' | 'DESC'];
 declare type SortBy<T> = Order<T>[];
+
 // Class section
 export class Response<T> {
   constructor(data, message?, statusCode?: number, errors?) {
@@ -36,6 +38,7 @@ export class PaginatedListBaseResponse<T> {
   message?: string = '리스트 조회를 완료하였습니다.'; // 상세 메세지
   @ApiPropertyOptional()
   data: T[];
+
   @ApiProperty()
   meta: {
     itemsPerPage: number;
@@ -49,6 +52,7 @@ export class PaginatedListBaseResponse<T> {
       [column: string]: string | string[];
     };
   };
+
   @ApiProperty()
   links: {
     first?: string;

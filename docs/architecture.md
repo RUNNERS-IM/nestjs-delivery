@@ -42,7 +42,7 @@ Settings and extensions specific to this project, for Visual Studio Code. See [t
 ## `docs`
 You found me! :wink:
 ## `.vuepress`
-Documentation config and destination folder See [VuePress doc](https://vuepress.vuejs.org) for more
+Documentation config and destination folder See [VuePress doc](https:// vuepress.vuejs.org) for more
 ## `src`
 Where we keep all our source files.
 ### `common`
@@ -56,17 +56,17 @@ Factories are used to create entities which will be used in seeds.
 #### `seeds`
 Folder to store application seeds, it adds necessary data for the development.
 ### `decorators`
-This folder contains all global [decorators](https://www.typescriptlang.org/docs/handbook/decorators.html).
+This folder contains all global [decorators](https:// www.typescriptlang.org/docs/handbook/decorators.html).
 ### `filters`
-In this folder you can find app level [filters](https://docs.nestjs.com/exception-filters).
+In this folder you can find app level [filters](https:// docs.nestjs.com/exception-filters).
 ### `guards`
 You can store all guards here.
 ### `i18n`
 Internalization JSON files are storied here.
 ### `interceptors`
-Where we are keep [interceptors](https://docs.nestjs.com/interceptors).
+Where we are keep [interceptors](https:// docs.nestjs.com/interceptors).
 ### `interfaces`
-This folder contains typescript [interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)
+This folder contains typescript [interfaces](https:// www.typescriptlang.org/docs/handbook/interfaces.html)
 ### `providers`
 These are utility functions you may want to share between many files in your application. They will always be pure and never have side effects, meaning if you provide a function the same arguments, it will always return the same result.
 ### `shared`
@@ -75,7 +75,7 @@ Shared module with global singleton services.
 
 ### `modules`
 
-Where all our NestJS modules lives. See [NestJS modules documentation](https://docs.nestjs.com/modules) for more.
+Where all our NestJS modules lives. See [NestJS modules documentation](https:// docs.nestjs.com/modules) for more.
 
 ### `app.module.ts`
 
@@ -109,15 +109,15 @@ Environment variables which will load before app start and will be stored in `pr
 
 ## `.eslintrc.js`
 
-Eslint configuration file, See [the eslint doc](https://eslint.org/) for more.
+Eslint configuration file, See [the eslint doc](https:// eslint.org/) for more.
 
 ## `docker-compose.yml`
 
-Docker compose configuration file, See [the docker docs](https://docs.docker.com/compose/compose-file/) for more.
+Docker compose configuration file, See [the docker docs](https:// docs.docker.com/compose/compose-file/) for more.
 
 ## `Dockerfile`
 
-basic Dockerfile configuration to build the app, See [the docker docs](https://docs.docker.com/engine/reference/builder/) for more.
+basic Dockerfile configuration to build the app, See [the docker docs](https:// docs.docker.com/engine/reference/builder/) for more.
 
 ## `ormconfig.ts`
 

@@ -12,6 +12,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsUUID } from 'class-validator';
 import { sampleUuid } from '../constants/sample';
 import { Type } from 'class-transformer';
+
 /**
  * Abstract Entity
  * @author Narek Hakobyan <narek.hakobyan.07@gmail.com>
@@ -35,14 +36,17 @@ export abstract class AbstractEntity<DTO extends AbstractDto = AbstractDto, O = 
   @IsUUID()
   @PrimaryGeneratedColumn('uuid')
   id: Uuid;
+
   @CreateDateColumn({
     type: 'timestamp',
   })
   createdAt: Date;
+
   @UpdateDateColumn({
     type: 'timestamp',
   })
   updatedAt: Date;
+
   @Type()
   @Allow()
   translations?: AbstractTranslationEntity[];

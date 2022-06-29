@@ -1,14 +1,19 @@
 require('../../env');
+
 // Nestjs
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
+
 // Third party
 import { isNil } from 'lodash';
+
 // Strategy
 import { SnakeNamingStrategy } from '../../snake-naming.strategy';
+
 // Subscriber
 import { AutoEncryptSubscriber } from 'typeorm-encrypted';
+
 // Main section
 @Injectable()
 export class ApiConfigService {

@@ -2,13 +2,17 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { DYNAMIC_TRANSLATION_DECORATOR_KEY } from '../../decorators';
 import { ContextProvider } from '../../providers';
 import type { AbstractEntity } from '../abstract.entity';
+
 export class AbstractDto {
   @ApiProperty()
   id: Uuid;
+
   @ApiProperty()
   createdAt: Date;
+
   @ApiProperty()
   updatedAt: Date;
+
   @ApiPropertyOptional({ type: () => [AbstractTranslationDto] })
   translations?: AbstractTranslationDto[];
   constructor(entity: AbstractEntity, options?: { excludeFields?: boolean }) {

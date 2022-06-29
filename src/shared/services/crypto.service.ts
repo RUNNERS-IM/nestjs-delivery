@@ -1,10 +1,12 @@
 // Nestjs
 import { Injectable } from '@nestjs/common';
+
 // Third party
 // Service
 import { ApiConfigService } from './api-config.service';
 import { decryptData, encryptData } from 'typeorm-encrypted';
 import { encryptionOptions } from '../../constants/encryption-options';
+
 // Main section
 @Injectable()
 export class CryptoService {

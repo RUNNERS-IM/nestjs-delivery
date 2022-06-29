@@ -1,9 +1,11 @@
 // Nestjs
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
+
 // Service
 import { CryptoService } from './crypto.service';
 import { ApiConfigService } from './api-config.service';
+
 // Main section
 describe('CryptoService', () => {
   let service: CryptoService;

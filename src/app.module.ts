@@ -1,33 +1,41 @@
 require('./env');
+
 // Nestjs
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 // Adminjs
 import { Database, Resource } from '@adminjs/typeorm';
 import AdminJS from 'adminjs';
+
 // Third party
 import path from 'path';
 import * as joi from 'joi';
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
+
 // Polyfill
 import './boilerplate.polyfill';
+
 // Module
 import { AuthModule } from './modules/auth/auth.module';
-// import { adminjsModule } from './admin/admin.module';
+
+import { adminjsModule } from './admin/admin.module';
 import { UserModule } from './modules/user/user.module';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
 import { SharedModule } from './shared/shared.module';
 import { DeliveryModule } from './modules/delivery/delivery.module';
+
 // Filter
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
+
 // Service
 import { ApiConfigService } from './shared/services/api-config.service';
+
 // Controller
 import { AppController } from './app.controller';
-import { adminjsModule } from './admin/admin.module';
-import { CardModule } from './modules/card/card.module';
+
 // Main section
 AdminJS.registerAdapter({ Database, Resource });
 const configModule = ConfigModule.forRoot({
@@ -61,7 +69,6 @@ const configModule = ConfigModule.forRoot({
     AuthModule,
     UserModule,
     DeliveryModule,
-    CardModule,
     TypeOrmModule.forRootAsync({
       imports: [SharedModule],
       useFactory: (configService: ApiConfigService) => configService.postgresConfig,
