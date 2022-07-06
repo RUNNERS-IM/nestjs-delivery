@@ -64,23 +64,29 @@ export function NumberField(
   if (swagger !== false) {
     decorators.push(ApiProperty({ type: Number, ...options, example: int ? 1 : 1.2 }));
   }
+
   if (each) {
     decorators.push(ToArray());
   }
+
   if (int) {
     decorators.push(IsInt({ each }));
   } else {
     decorators.push(IsNumber({}, { each }));
   }
+
   if (_.isNumber(minimum)) {
     decorators.push(Min(minimum, { each }));
   }
+
   if (_.isNumber(maximum)) {
     decorators.push(Max(maximum, { each }));
   }
+
   if (isPositive) {
     decorators.push(IsPositive({ each }));
   }
+
   return applyDecorators(...decorators);
 }
 export function NumberFieldOptional(
@@ -100,18 +106,23 @@ export function StringField(
   if (options?.swagger !== false) {
     decorators.push(ApiProperty({ type: String, ...options }));
   }
+
   if (options?.minLength) {
     decorators.push(MinLength(options.minLength));
   }
+
   if (options?.maxLength) {
     decorators.push(MaxLength(options.maxLength));
   }
+
   if (options?.toLowerCase) {
     decorators.push(ToLowerCase());
   }
+
   if (options?.toUpperCase) {
     decorators.push(ToUpperCase());
   }
+
   return applyDecorators(...decorators);
 }
 export function StringFieldOptional(
@@ -139,6 +150,7 @@ export function BooleanField(
   if (options?.swagger !== false) {
     decorators.push(ApiProperty({ type: Boolean, ...options }));
   }
+
   return applyDecorators(...decorators);
 }
 export function BooleanFieldOptional(
@@ -161,6 +173,7 @@ export function TranslationsField(
   if (options?.swagger !== false) {
     decorators.push(ApiProperty({ isArray: true, ...options }));
   }
+
   return applyDecorators(...decorators);
 }
 export function TranslationsFieldOptional(
@@ -176,6 +189,7 @@ export function TmpKeyField(
   if (options?.swagger !== false) {
     decorators.push(ApiProperty({ type: String, ...options }));
   }
+
   return applyDecorators(...decorators);
 }
 export function TmpKeyFieldOptional(
@@ -197,9 +211,11 @@ export function EnumField<TEnum>(
   if (options?.swagger !== false) {
     decorators.push(ApiEnumProperty(getEnum, options));
   }
+
   if (options.each) {
     decorators.push(ToArray());
   }
+
   return applyDecorators(...decorators);
 }
 export function EnumFieldOptional<TEnum>(
@@ -216,6 +232,7 @@ export function EmailField(
   if (options?.swagger !== false) {
     decorators.push(ApiProperty({ type: String, ...options }));
   }
+
   return applyDecorators(...decorators);
 }
 export function EmailFieldOptional(
@@ -230,6 +247,7 @@ export function PhoneField(
   if (options?.swagger !== false) {
     decorators.push(ApiProperty({ type: String, ...options }));
   }
+
   return applyDecorators(...decorators);
 }
 export function PhoneFieldOptional(
@@ -245,9 +263,11 @@ export function UUIDField(
   if (options?.swagger !== false) {
     decorators.push(ApiUUIDProperty(options));
   }
+
   if (options?.each) {
     decorators.push(ArrayNotEmpty(), ToArray());
   }
+
   return applyDecorators(...decorators);
 }
 export function UUIDFieldOptional(
@@ -273,6 +293,7 @@ export function DateField(
   if (options?.swagger !== false) {
     decorators.push(ApiProperty(options));
   }
+
   return applyDecorators(...decorators);
 }
 export function DateFieldOptional(

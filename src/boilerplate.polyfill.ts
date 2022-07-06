@@ -13,11 +13,7 @@ import { PageMetaDto } from './common/dto/page-meta.dto';
 import type { PageOptionsDto } from './common/dto/page-options.dto';
 import { VIRTUAL_COLUMN_KEY } from './decorators';
 import type { KeyOfType } from './types';
-function groupRows<T>(
-  rawResults: T[],
-  alias: Alias,
-  driver: Driver,
-): Map<string, T[]> {
+function groupRows<T>(rawResults: T[], alias: Alias, driver: Driver): Map<string, T[]> {
   const raws = new Map();
   const keys: string[] = [];
   if (alias.metadata.tableType === 'view') {
@@ -33,6 +29,7 @@ function groupRows<T>(
       ),
     );
   }
+
   for (const rawResult of rawResults) {
     const id = keys
       .map((key) => {
@@ -53,6 +50,7 @@ function groupRows<T>(
       items.push(rawResult);
     }
   }
+
   return raws;
 }
 declare global {
@@ -72,6 +70,7 @@ declare module 'typeorm' {
   interface QueryBuilder<Entity> {
     searchByString(q: string, columnNames: string[]): this;
   }
+
   interface SelectQueryBuilder<Entity> {
     paginate(
       this: SelectQueryBuilder<Entity>,
@@ -80,64 +79,47 @@ declare module 'typeorm' {
     ): Promise<[Entity[], PageMetaDto]>;
     leftJoinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
       this: SelectQueryBuilder<Entity>,
-      property: `${A}.${Exclude<
-        KeyOfType<AliasEntity, AbstractEntity>,
-        symbol
-      >}`,
+      property: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       condition?: string,
       parameters?: ObjectLiteral,
     ): this;
     leftJoin<AliasEntity extends AbstractEntity, A extends string>(
       this: SelectQueryBuilder<Entity>,
-      property: `${A}.${Exclude<
-        KeyOfType<AliasEntity, AbstractEntity>,
-        symbol
-      >}`,
+      property: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       condition?: string,
       parameters?: ObjectLiteral,
     ): this;
     innerJoinAndSelect<AliasEntity extends AbstractEntity, A extends string>(
       this: SelectQueryBuilder<Entity>,
-      property: `${A}.${Exclude<
-        KeyOfType<AliasEntity, AbstractEntity>,
-        symbol
-      >}`,
+      property: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       condition?: string,
       parameters?: ObjectLiteral,
     ): this;
     innerJoin<AliasEntity extends AbstractEntity, A extends string>(
       this: SelectQueryBuilder<Entity>,
-      property: `${A}.${Exclude<
-        KeyOfType<AliasEntity, AbstractEntity>,
-        symbol
-      >}`,
+      property: `${A}.${Exclude<KeyOfType<AliasEntity, AbstractEntity>, symbol>}`,
       alias: string,
       condition?: string,
       parameters?: ObjectLiteral,
     ): this;
   }
 }
-Array.prototype.toDtos = function <
-  Entity extends AbstractEntity<Dto>,
-  Dto extends AbstractDto,
->(options?: unknown): Dto[] {
-  return compact(
-    map<Entity, Dto>(this as Entity[], (item) => item.toDto(options as never)),
-  );
-};
-Array.prototype.toPageDto = function (
-  pageMetaDto: PageMetaDto,
+Array.prototype.toDtos = function <Entity extends AbstractEntity<Dto>, Dto extends AbstractDto>(
   options?: unknown,
-) {
+): Dto[] {
+  return compact(map<Entity, Dto>(this as Entity[], (item) => item.toDto(options as never)));
+};
+Array.prototype.toPageDto = function (pageMetaDto: PageMetaDto, options?: unknown) {
   return new PageDto(this.toDtos(options), pageMetaDto);
 };
 QueryBuilder.prototype.searchByString = function (q, columnNames) {
   if (!q) {
     return this;
   }
+
   this.andWhere(
     new Brackets((qb) => {
       for (const item of columnNames) {
@@ -155,16 +137,13 @@ SelectQueryBuilder.prototype.paginate = async function (
   if (!options?.takeAll) {
     this.skip(pageOptionsDto.skip).take(pageOptionsDto.take);
   }
+
   const itemCount = await this.getCount();
   const { entities, raw } = await this.getRawAndEntities();
   const alias = this.expressionMap.mainAlias!;
   const group = groupRows(raw, alias, this.connection.driver);
   const keys = alias.metadata.primaryColumns.map((column) =>
-    DriverUtils.buildAlias(
-      this.connection.driver,
-      alias.name,
-      column.databaseName,
-    ),
+    DriverUtils.buildAlias(this.connection.driver, alias.name, column.databaseName),
   );
   for (const rawValue of raw) {
     const id = keys
@@ -180,8 +159,7 @@ SelectQueryBuilder.prototype.paginate = async function (
       })
       .join('_');
     const entity = entities.find((item) => item.id === id) as AbstractEntity;
-    const metaInfo: Record<string, string> =
-      Reflect.getMetadata(VIRTUAL_COLUMN_KEY, entity) ?? {};
+    const metaInfo: Record<string, string> = Reflect.getMetadata(VIRTUAL_COLUMN_KEY, entity) ?? {};
     for (const [propertyKey, name] of Object.entries<string>(metaInfo)) {
       const items = group.get(id);
       if (items) {
@@ -191,6 +169,7 @@ SelectQueryBuilder.prototype.paginate = async function (
       }
     }
   }
+
   const pageMetaDto = new PageMetaDto({
     itemCount,
     pageOptionsDto,

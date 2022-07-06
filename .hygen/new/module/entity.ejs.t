@@ -132,6 +132,7 @@ import { <%= SubEntityName %> } from './<%= subEntityFileName %>';
 @Entity({ name: '<%= pluralName %>' })
 export class <%= EntityName %> extends AbstractEntity {
   // ManyToOne fields
+  @ApiModelProperty({ type: () => UserEntity })
   @Type(() => UserEntity)
   @ValidateNested()
   @ManyToOne(() => UserEntity, (user) => user.<%= pluralName %>)
@@ -145,6 +146,7 @@ export class <%= EntityName %> extends AbstractEntity {
   userId: Uuid;
 
   // OneToMany fields
+  @ApiModelProperty({ type: () => <%= SubEntityName %>, isArray: true })
   @Type(() => <%= SubEntityName %>)
   @ValidateNested({ each: true })
   @OneToMany(() => <%= SubEntityName %>, (<%= subname %>) => <%= subname %>.<%= name %>)

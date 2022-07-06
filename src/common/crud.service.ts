@@ -18,6 +18,7 @@ import { FindOneOptions } from 'typeorm/find-options/FindOneOptions';
 export class CrudService<T extends BaseEntity> implements ICrudService<T> {
   private readonly entityName = this.genericRepository.metadata.targetName;
   constructor(private readonly genericRepository: Repository<T>) {}
+
   public async search(where, query: PaginateQuery): Promise<Paginated<T>> {
     // Return section
     return paginate(query, this.genericRepository, {
@@ -31,6 +32,7 @@ export class CrudService<T extends BaseEntity> implements ICrudService<T> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return await this.genericRepository.find(optionsOrConditions as any);
   }
+
   public async findOne(
     idOrOptionsOrConditions?: string | number | FindOneOptions<T> | FindConditions<T>,
     maybeOptions?: FindOneOptions<T>,
@@ -38,6 +40,7 @@ export class CrudService<T extends BaseEntity> implements ICrudService<T> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return await this.genericRepository.findOne(idOrOptionsOrConditions as any, maybeOptions);
   }
+
   public async findOneOrFail(
     idOrOptionsOrConditions?: string | number | FindOneOptions<T> | FindConditions<T>,
     maybeOptions?: FindOneOptions<T>,
@@ -56,6 +59,7 @@ export class CrudService<T extends BaseEntity> implements ICrudService<T> {
   async getAll(): Promise<T[]> {
     return await this.genericRepository.find();
   }
+
   async getOne(id: number): Promise<T> {
     return await this.genericRepository.findOne(id);
   }
@@ -63,6 +67,7 @@ export class CrudService<T extends BaseEntity> implements ICrudService<T> {
   async create(entity: DeepPartial<T>) {
     return await this.genericRepository.create(entity).save();
   }
+
   async createBulk(entities: DeepPartial<T>[]): Promise<T[]> {
     const results = [];
     for (const entity of entities) {
@@ -94,6 +99,7 @@ export class CrudService<T extends BaseEntity> implements ICrudService<T> {
     // Return section
     return instance;
   }
+
   async findOrCreateBulk(entities: DeepPartial<T>[]): Promise<T[]> {
     const instances: T[] = [];
     // Get or create
@@ -125,6 +131,7 @@ export class CrudService<T extends BaseEntity> implements ICrudService<T> {
     // Return section
     return instance;
   }
+
   async createOrUpdateBulk(entities: DeepPartial<T>[]): Promise<T[]> {
     const results = [];
     for (const entity of entities) {

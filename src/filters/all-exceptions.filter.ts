@@ -5,6 +5,7 @@ import { I18nService } from 'nestjs-i18n';
 @Catch(HttpException)
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly i18n: I18nService) {}
+
   async catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();

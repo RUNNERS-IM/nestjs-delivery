@@ -15,6 +15,7 @@ import { TokenDto } from './dtos/token.dto';
 @Injectable()
 export class AuthService {
   constructor(private jwtService: JwtService, private configService: ApiConfigService) {}
+
   async createAccessToken(data: { role: RoleType; id: Uuid }): Promise<TokenDto> {
     return new TokenDto({
       expiresIn: this.configService.authConfig.jwtExpirationTime,

@@ -21,5 +21,6 @@ export function validateHash(password: Optional<string>, hash: Optional<string>)
   if (!password || !hash) {
     return Promise.resolve(false);
   }
+
   return bcrypt.compare(password, hash);
 }

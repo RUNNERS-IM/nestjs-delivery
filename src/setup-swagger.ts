@@ -50,6 +50,7 @@ Routes is following REST standard (Richardson level 3)
   if (process.env.API_VERSION) {
     documentBuilder.setVersion(process.env.API_VERSION);
   }
+
   const document = SwaggerModule.createDocument(app, documentBuilder.build());
   SwaggerModule.setup('docs', app, document, {
     swaggerOptions: {

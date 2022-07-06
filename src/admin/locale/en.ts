@@ -30,12 +30,8 @@ const translations = {
     loginWelcome: `Welcome to ${process.env.SERVICE_TITLE || 'Admin'}!`,
     dashboard: 'Dashboard',
     UserEntity: 'User',
-    SellerEntity: 'Seller',
-    BuyerEntity: 'Buyer',
     DeliveryEntity: 'Delivery',
-    DeliveryPrepareEntity: 'Delivery Prepare',
-    DeliveryCancelEntity: 'Delivery Cancel',
-    CardEntity: 'Card',
+    DeliveryHistoryEntity: 'Delivery History',
   },
   properties: {
     length: 'Length',

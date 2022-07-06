@@ -227,7 +227,7 @@ export class <%= ClassName %>Controller {
     description: '<%= label %> 부분 수정 성공시 결과 예시',
     type: <%= ClassName %>UpdateResponse,
   })
-  async <%= partialUpdateFunctionName %>(@AuthUser() user, @Param('id') id: Uuid) {
+  async <%= partialUpdateFunctionName %>(@AuthUser() user, @Param('id') id: Uuid, @Body() <%= updateDtoName %>: <%= UpdateDtoName %>,) {
     // Update <%= name %>
     const <%= name %>: <%= EntityName %> = await this.<%= serviceName %>.findOneOrFail({
       userId: user.id,
@@ -249,7 +249,7 @@ export class <%= ClassName %>Controller {
     description: '<%= label %> 전체 수정 성공시 결과 예시',
     type: <%= ClassName %>UpdateResponse,
   })
-  async <%= updateFunctionName %>(@AuthUser() user, @Param('id') id: Uuid) {
+  async <%= updateFunctionName %>(@AuthUser() user, @Param('id') id: Uuid, @Body() <%= updateDtoName %>: <%= UpdateDtoName %>,) {
     // Update <%= name %>
     const <%= name %>: <%= EntityName %> = await this.<%= serviceName %>.findOneOrFail({
       userId: user.id,

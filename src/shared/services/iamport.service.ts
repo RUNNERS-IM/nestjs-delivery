@@ -28,9 +28,11 @@ export class IamportService {
     this.vbank = this.iamport.vbank;
     this.escrows = this.iamport.escrows;
   }
+
   getCustomerUid(key: string) {
     return 'Customer-' + String(key) + '-' + String(new Date().getTime());
   }
+
   getMerchantUid(key: string) {
     return 'Merchant-' + String(key) + '-' + String(new Date().getTime());
   }

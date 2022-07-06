@@ -10,6 +10,7 @@ import kr from './locale/kr';
 // Resource
 import { userResource } from '../modules/user/admins/user.resource';
 import { deliveryResource } from '../modules/delivery/admins/delivery.resource';
+import { deliveryHistoryResource } from '../modules/delivery/admins/delivery-history.resource';
 
 // Main section
 export const adminjsModule = AdminModule.createAdminAsync({
@@ -23,6 +24,7 @@ export const adminjsModule = AdminModule.createAdminAsync({
         userResource,
         // Delivery
         deliveryResource,
+        deliveryHistoryResource,
       ],
       locale: kr,
       branding: {

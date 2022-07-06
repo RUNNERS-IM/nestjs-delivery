@@ -1,3 +1,6 @@
+// Node
+import path from 'path';
+
 // Nestjs
 import { HttpModule } from '@nestjs/axios';
 import { Global, Module } from '@nestjs/common';
@@ -12,10 +15,9 @@ import { AwsS3Service } from './services/aws-s3.service';
 import { GeneratorService } from './services/generator.service';
 import { TranslationService } from './services/translation.service';
 import { ValidatorService } from './services/validator.service';
-import { IamportService } from './services/iamport.service';
 import { CryptoService } from './services/crypto.service';
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
-import path from 'path';
+import { SweetTrackerService } from './services/sweet-tracker.service';
 
 // Main section
 const providers = [
@@ -24,8 +26,8 @@ const providers = [
   AwsS3Service,
   GeneratorService,
   TranslationService,
-  IamportService,
   CryptoService,
+  SweetTrackerService,
   // {
   //   provide: 'NATS_SERVICE',
   //   useFactory: (configService: ApiConfigService) => {
@@ -43,6 +45,7 @@ const providers = [
   //   inject: [ApiConfigService],
   // },
 ];
+
 @Global()
 @Module({
   providers,

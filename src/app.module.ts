@@ -1,5 +1,3 @@
-require('./env');
-
 // Nestjs
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -35,6 +33,9 @@ import { ApiConfigService } from './shared/services/api-config.service';
 
 // Controller
 import { AppController } from './app.controller';
+import { AutoEncryptSubscriber } from 'typeorm-encrypted';
+
+require('./env');
 
 // Main section
 AdminJS.registerAdapter({ Database, Resource });
@@ -66,12 +67,18 @@ const configModule = ConfigModule.forRoot({
   imports: [
     configModule,
     adminjsModule,
+    SharedModule,
     AuthModule,
     UserModule,
     DeliveryModule,
     TypeOrmModule.forRootAsync({
       imports: [SharedModule],
-      useFactory: (configService: ApiConfigService) => configService.postgresConfig,
+      useFactory: (configService: ApiConfigService) => {
+        return {
+          ...configService.postgresConfig,
+          subscribers: [AutoEncryptSubscriber],
+        };
+      },
       inject: [ApiConfigService],
     }),
     I18nModule.forRootAsync({

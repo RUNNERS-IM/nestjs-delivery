@@ -13,6 +13,7 @@ export class ServiceHealthIndicator extends HealthIndicator {
   ) {
     super();
   }
+
   async isHealthy(eventName: string): Promise<HealthIndicatorResult> {
     try {
       if (!this.clientProxy) {

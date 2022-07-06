@@ -7,6 +7,7 @@ import type { UserEntity } from '../modules/user/entities/user.entity';
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
+
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<RoleType[]>('roles', context.getHandler());
     if (_.isEmpty(roles)) {

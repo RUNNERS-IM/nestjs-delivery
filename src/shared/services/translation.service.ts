@@ -9,22 +9,25 @@ import { ContextProvider } from '../../providers';
 @Injectable()
 export class TranslationService {
   constructor(private readonly i18n: I18nService) {}
+
   async translate(key: string, options?: translateOptions): Promise<string> {
     return this.i18n.translate(`${key}`, {
       ...options,
       lang: ContextProvider.getLanguage(),
     });
   }
+
   async translateNecessaryKeys<T extends AbstractDto>(dto: T): Promise<T> {
     await Promise.all(
       map(dto, async (value, key) => {
         if (isString(value)) {
-          const translateDec: ITranslationDecoratorInterface =
-            Reflect.getMetadata(STATIC_TRANSLATION_DECORATOR_KEY, dto, key);
+          const translateDec: ITranslationDecoratorInterface = Reflect.getMetadata(
+            STATIC_TRANSLATION_DECORATOR_KEY,
+            dto,
+            key,
+          );
           if (translateDec) {
-            return this.translate(
-              `${translateDec.translationKey ?? key}.${value}`,
-            );
+            return this.translate(`${translateDec.translationKey ?? key}.${value}`);
           }
           return;
         }

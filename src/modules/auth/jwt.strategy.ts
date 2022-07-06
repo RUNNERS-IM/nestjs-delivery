@@ -15,6 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: configService.authConfig.secretKey,
     });
   }
+
   async validate(args: { userId: Uuid; role: RoleType; type: TokenType }): Promise<UserEntity> {
     if (args.type !== TokenType.ACCESS_TOKEN) {
       throw new UnauthorizedException();

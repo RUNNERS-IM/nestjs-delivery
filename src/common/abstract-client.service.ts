@@ -11,6 +11,7 @@ import type { PageMetaDto } from './dto/page-meta.dto';
  */
 export class AbstractClientService<ActionType> {
   constructor(private client: ClientProxy) {}
+
   public async send(pattern: ActionType, data: unknown): Promise<void>;
   public async send<R>(
     pattern: ActionType,

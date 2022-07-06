@@ -15,12 +15,14 @@ export class CryptoService {
     const { cryptoPrivateKey } = this.apiConfigService.cryptoConfig;
     this.cryptoPrivateKey = cryptoPrivateKey;
   }
+
   encode(original: any): string {
     return encryptData(Buffer.from(JSON.stringify(original), 'utf8'), encryptionOptions).toString(
       'base64',
     );
     // return encryptData(Buffer.from(original, 'utf8'), encryptionOptions).toString('base64');
   }
+
   decode(cipher: string): any {
     const data = decryptData(Buffer.from(cipher, 'base64'), encryptionOptions).toString('utf8');
     try {

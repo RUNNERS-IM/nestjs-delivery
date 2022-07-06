@@ -1,5 +1,3 @@
-require('../../env');
-
 // Nestjs
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -14,19 +12,25 @@ import { SnakeNamingStrategy } from '../../snake-naming.strategy';
 // Subscriber
 import { AutoEncryptSubscriber } from 'typeorm-encrypted';
 
+require('../../env');
+
 // Main section
 @Injectable()
 export class ApiConfigService {
   constructor(private configService: ConfigService) {}
+
   get isDevelopment(): boolean {
     return this.nodeEnv === 'development';
   }
+
   get isProduction(): boolean {
     return this.nodeEnv === 'production';
   }
+
   get isTest(): boolean {
     return this.nodeEnv === 'test';
   }
+
   private getNumber(key: string): number {
     const value = this.get(key);
     try {
@@ -35,6 +39,7 @@ export class ApiConfigService {
       throw new Error(key + ' environment variable is not a number');
     }
   }
+
   private getBoolean(key: string): boolean {
     const value = this.get(key);
     try {
@@ -43,16 +48,20 @@ export class ApiConfigService {
       throw new Error(key + ' env var is not a boolean');
     }
   }
+
   private getString(key: string): string {
     const value = this.get(key);
     return value.replace(/\\n/g, '\n');
   }
+
   get nodeEnv(): string {
     return this.getString('NODE_ENV');
   }
+
   get fallbackLanguage(): string {
     return this.getString('FALLBACK_LANGUAGE');
   }
+
   get postgresConfig(): TypeOrmModuleOptions {
     let entities = [
       __dirname + '/../../modules/**/*.entity{.ts,.js}',
@@ -91,6 +100,7 @@ export class ApiConfigService {
       namingStrategy: new SnakeNamingStrategy(),
     };
   }
+
   get awsS3Config() {
     return {
       bucketRegion: this.getString('AWS_S3_BUCKET_REGION'),
@@ -98,18 +108,22 @@ export class ApiConfigService {
       bucketName: this.getString('AWS_S3_BUCKET_NAME'),
     };
   }
+
   get documentationEnabled(): boolean {
     return this.getBoolean('ENABLE_DOCUMENTATION');
   }
+
   get natsEnabled(): boolean {
     return this.getBoolean('NATS_ENABLED');
   }
+
   get natsConfig() {
     return {
       host: this.getString('NATS_HOST'),
       port: this.getNumber('NATS_PORT'),
     };
   }
+
   get authConfig() {
     return {
       // privateKey: this.getString('JWT_PRIVATE_KEY'),
@@ -118,22 +132,35 @@ export class ApiConfigService {
       jwtExpirationTime: this.getNumber('JWT_EXPIRATION_TIME'),
     };
   }
+
   get appConfig() {
     return {
       port: this.getString('PORT'),
     };
   }
+
   get iamportConfig() {
     return {
       impKey: this.getString('IMP_KEY'),
       impSecret: this.getString('IMP_SECRET'),
     };
   }
+
   get cryptoConfig() {
     return {
       cryptoPrivateKey: this.getString('CRYPTO_PRIVATE_KEY'),
     };
   }
+
+  get sweettrackerConfig() {
+    return {
+      sweettrackerTraceApi: this.getString('SWEETTRACKER_TRACE_API'),
+      sweettrackerInfoApi: this.getString('SWEETTRACKER_INFO_API'),
+      sweettrackerKey: this.getString('SWEETTRACKER_KEY'),
+      sweettrackerTier: this.getString('SWEETTRACKER_TIER'),
+    };
+  }
+
   private get(key: string): string {
     const value = this.configService.get<string>(key);
     if (isNil(value)) {

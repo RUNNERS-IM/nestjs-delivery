@@ -10,8 +10,10 @@ export class UserSubscriber implements EntitySubscriberInterface<UserEntity> {
   constructor(connection: Connection) {
     connection.subscribers.push(this);
   }
+
   listenTo() {
     return UserEntity;
   }
+
   async afterInsert(event: InsertEvent<UserEntity>) {}
 }

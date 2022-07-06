@@ -226,7 +226,7 @@ export class <%= SubClassName %>Controller {
     description: '<%= sublabel %> 부분 수정 성공시 결과 예시',
     type: <%= SubClassName %>UpdateResponse,
   })
-  async <%= subPartialUpdateFunctionName %>(@AuthUser() user, @Param('id') id: Uuid) {
+  async <%= subPartialUpdateFunctionName %>(@AuthUser() user, @Param('id') id: Uuid, @Body() <%= subUpdateDtoName %>: <%= SubUpdateDtoName %>) {
     // Update <%= subname %>
     const <%= subname %>: <%= SubEntityName %> = await this.<%= subServiceName %>.findOneOrFail({
       id: id,
@@ -247,7 +247,7 @@ export class <%= SubClassName %>Controller {
     description: '<%= sublabel %> 전체 수정 성공시 결과 예시',
     type: <%= SubClassName %>UpdateResponse,
   })
-  async <%= subUpdateFunctionName %>(@AuthUser() user, @Param('id') id: Uuid) {
+  async <%= subUpdateFunctionName %>(@AuthUser() user, @Param('id') id: Uuid, @Body() <%= subUpdateDtoName %>: <%= SubUpdateDtoName %>) {
     // Update <%= subname %>
     const <%= subname %>: <%= SubEntityName %> = await this.<%= subServiceName %>.findOneOrFail({
       id: id,

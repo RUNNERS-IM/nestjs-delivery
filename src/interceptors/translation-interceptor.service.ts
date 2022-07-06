@@ -9,6 +9,7 @@ import { TranslationService } from '../shared/services/translation.service';
 @Injectable()
 export class TranslationInterceptor implements NestInterceptor {
   constructor(private readonly translationService: TranslationService) {}
+
   public intercept(_context: ExecutionContext, next: CallHandler): Observable<AbstractDto> {
     return next
       .handle()

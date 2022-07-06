@@ -50,6 +50,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   if (configService.documentationEnabled) {
     setupSwagger(app);
   }
+
   app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(
     helmet({
@@ -107,12 +108,14 @@ export async function bootstrap(): Promise<NestExpressApplication> {
     });
     await app.startAllMicroservices();
   }
+
   app.use(expressCtx);
 
   // Starts listening for shutdown hooks
   if (!configService.isDevelopment) {
     app.enableShutdownHooks();
   }
+
   const port = configService.appConfig.port;
   await app.listen(port || 3000, '0.0.0.0');
   console.info(`server running on ${await app.getUrl()}`);
@@ -123,6 +126,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   //   module.hot.dispose(() => app.close());
 
   // }
+
   return app;
 }
 void bootstrap();

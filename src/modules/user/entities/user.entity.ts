@@ -5,8 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 // Third party
-import { IsEmail, IsPhoneNumber, IsString, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsEmail, IsPhoneNumber, IsString } from 'class-validator';
 
 // Constant
 import { RoleType } from '../../../constants';
@@ -21,8 +20,8 @@ import { DeliveryEntity } from '../../delivery/entities/delivery.entity';
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity {
   // OneToMany fields
-  @Type(() => DeliveryEntity)
-  @ValidateNested({ each: true })
+  // @Type(() => DeliveryEntity)
+  // @ValidateNested({ each: true })
   @OneToMany(() => DeliveryEntity, (delivery) => delivery.user)
   deliveries: DeliveryEntity[];
 
