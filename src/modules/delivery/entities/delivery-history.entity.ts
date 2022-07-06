@@ -5,26 +5,30 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 // Third party
-import { IsInt, IsPositive, IsString, Max, Min } from 'class-validator';
+import { IsInt, IsPositive, IsString, IsUUID, Max, Min, ValidateNested } from 'class-validator';
 
 // Constants
 // Entity
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { DeliveryEntity } from './delivery.entity';
+import { sampleUuid } from '../../../constants/sample';
+import { Exclude, Type } from 'class-transformer';
+import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';
 
 // Main section
 @Entity({ name: 'deliveryHistories' })
 export class DeliveryHistoryEntity extends AbstractEntity {
   // ManyToOne fields
-  // @Type(() => DeliveryEntity)
-  // @ValidateNested()
+  @ApiModelProperty({ type: () => DeliveryEntity })
+  @Type(() => DeliveryEntity)
+  @ValidateNested()
   @ManyToOne(() => DeliveryEntity, (delivery) => delivery.deliveryHistories)
-  // @JoinColumn({ name: 'deliveryId' })
   delivery: DeliveryEntity;
 
-  // // @Type()
-  // @ApiProperty({ type: 'string', description: 'delivery의 id', default: sampleUuid })
-  // // @IsUUID()
+  @Type()
+  @ApiProperty({ type: 'string', description: 'delivery의 id', default: sampleUuid })
+  @Exclude({ toPlainOnly: true })
+  @IsUUID()
   @Column({ nullable: true })
   deliveryId: Uuid;
 
