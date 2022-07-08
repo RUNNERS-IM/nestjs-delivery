@@ -1,8 +1,17 @@
+// Nestjs
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
+// Decorator
 import { DYNAMIC_TRANSLATION_DECORATOR_KEY } from '../../decorators';
+
+// Provider
 import { ContextProvider } from '../../providers';
+
+// Third Party
+// Entity
 import type { AbstractEntity } from '../abstract.entity';
 
+// Main section
 export class AbstractDto {
   @ApiProperty()
   id: Uuid;
@@ -11,7 +20,7 @@ export class AbstractDto {
   createdAt: Date;
 
   @ApiProperty()
-  updatedAt: Date;
+  createdAgo: string;
 
   @ApiPropertyOptional({ type: () => [AbstractTranslationDto] })
   translations?: AbstractTranslationDto[];
@@ -19,7 +28,7 @@ export class AbstractDto {
     if (!options?.excludeFields) {
       this.id = entity.id;
       this.createdAt = entity.createdAt;
-      this.updatedAt = entity.updatedAt;
+      // this.updatedAt = entity.updatedAt;
     }
     const languageCode = ContextProvider.getLanguage();
     if (languageCode && entity.translations) {

@@ -33,7 +33,6 @@ import { ApiConfigService } from './shared/services/api-config.service';
 
 // Controller
 import { AppController } from './app.controller';
-import { AutoEncryptSubscriber } from 'typeorm-encrypted';
 
 require('./env');
 
@@ -73,12 +72,7 @@ const configModule = ConfigModule.forRoot({
     DeliveryModule,
     TypeOrmModule.forRootAsync({
       imports: [SharedModule],
-      useFactory: (configService: ApiConfigService) => {
-        return {
-          ...configService.postgresConfig,
-          subscribers: [AutoEncryptSubscriber],
-        };
-      },
+      useFactory: (configService: ApiConfigService) => configService.postgresConfig,
       inject: [ApiConfigService],
     }),
     I18nModule.forRootAsync({

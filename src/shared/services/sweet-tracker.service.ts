@@ -1,5 +1,5 @@
 // Nestjs
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AxiosRequestConfig } from '@nestjs/terminus/dist/health-indicator/http/axios.interfaces';
 
 // Third party
@@ -76,6 +76,9 @@ export class SweetTrackerService {
   getInfoUrl = (route: string) => {
     return String(new URL(`/api/v1/${route}`, this.sweettrackerInfoApi));
   };
+  getInfoTemplateUrl = (mode: number) => {
+    return String(new URL(`/tracking/${mode}?`, this.sweettrackerInfoApi));
+  };
   getTraceUrl = (route: string) => {
     return String(new URL(`/${route}`, this.sweettrackerTraceApi));
   };
@@ -83,6 +86,15 @@ export class SweetTrackerService {
   getInfoParams = (params?: any) => {
     return { t_key: this.sweettrackerKey, ...params };
   };
+
+  // getInfoData = (todo) => {
+  //   var data = new FormData();
+  //   data.append('t_key', 'G3hW02J53tWidMQisudiUQ');
+  //   data.append('t_code', '08');
+  //   data.append('t_invoice', '243636855173');
+  //
+  //   return data;
+  // };
 
   getFid(key: string) {
     return 'Fid-' + String(key) + '-' + String(new Date().getTime());
@@ -111,39 +123,16 @@ export class SweetTrackerService {
     const url = this.getInfoUrl('trackingInfo');
     const params = this.getInfoParams({ t_invoice: invoice, t_code: code });
     const { data: response } = await axios.get(url, { params });
+    console.log(response);
+    if (response.status == false) throw new ForbiddenException(response.msg);
     return reformatDelivery(response);
   }
 
-  // async addInvoice(invoice: string, code: string, urlCallback: string): any {
-  //   const url = this.getInfoUrl('add_invoice');
-  //   const data = this.getInfoParams({
-  //     num: invoice, // 운송장번호(공백또는 "-"제거)
-  //     code: code, // 배송사 코드
-  //     fid: this.getFid('test'), // 해당 건의 결과 전송에 쓰이는 식별 값 ( 유니크한 값 )
-  //     callback_url: 'https://localhost', // 결과를 전달받을 URL
-  //     callback_type: 'json', // callback Response type (“map" , "json” , “xml”) : 기본 map
-  //     tier: this.sweettrackerTier,
-  //     key: this.sweettrackerKey,
-  //   });
-  //   const { data: response } = await axios.post(url, { data });
-  //   const {
-  //     senderName: sender,
-  //     receiverName: receiver,
-  //     itemName: title, // 상품명
-  //     estimate: estimate, // 배송 예정 시간: string
-  //     complete: isComplete, // 배송 완료 여부: boolean
-  //     level: level, // 진행단계: number (1: 배송준비중, 2: 집화완료, 3: 배송중, 4: 지점 도착, 5: 배송출발, 6:배송 완료)
-  //     trackingDetails: deliveryHistories, // 배송내역
-  //   } = response;
-  //
-  //   return {
-  //     sender,
-  //     receiver,
-  //     title,
-  //     level,
-  //     estimate,
-  //     isComplete,
-  //     deliveryHistories: deliveryHistories.map(reformatDeliveryDetail),
-  //   };
-  // }
+  getDeliveryTemplate(invoice: string, code: string) {
+    let url = new URL('https://info.sweettracker.co.kr/tracking/5');
+    url.searchParams.set('t_key', this.sweettrackerKey);
+    url.searchParams.set('t_invoice', invoice);
+    url.searchParams.set('t_code', code);
+    return String(url);
+  }
 }

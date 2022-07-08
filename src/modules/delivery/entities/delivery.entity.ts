@@ -14,7 +14,8 @@ import { UserEntity } from '../../user/entities/user.entity';
 import { DeliveryHistoryEntity } from './delivery-history.entity';
 import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';
 import { sampleUuid } from '../../../constants/sample';
-import { Exclude, Type } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
+import * as timeago from 'timeago.js';
 
 // Main section
 @Entity({ name: 'deliveries' })
@@ -56,7 +57,7 @@ export class DeliveryEntity extends AbstractEntity {
   @Column({ nullable: true })
   fid: string;
 
-  @ApiProperty({ type: 'string', description: '운송장번호', default: '241837655360' })
+  @ApiProperty({ type: 'string', description: '운송장번호', default: '243636855173' })
   @IsString()
   @Column({ nullable: true })
   invoice: string;
@@ -77,6 +78,12 @@ export class DeliveryEntity extends AbstractEntity {
   @ApiProperty({ type: 'string', description: '택배사 처리시간' })
   @Column({ nullable: true })
   time: Date;
+
+  @Expose()
+  get timeAgo(): string {
+    if (!this.time) return null;
+    return timeago.format(this.time, 'ko');
+  }
 
   @ApiProperty({ type: 'boolean', description: '배송 완료 여부' })
   @IsString()

@@ -1,3 +1,4 @@
+// Typeorm
 import {
   BaseEntity,
   Column,
@@ -5,13 +6,29 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { LanguageCode } from '../constants';
-import type { Constructor } from '../types';
-import type { AbstractDto, AbstractTranslationDto } from './dto/abstract.dto';
+
+// Nestjs
 import { ApiProperty } from '@nestjs/swagger';
+
+// Third Party
 import { Allow, IsUUID } from 'class-validator';
+import { Exclude, Expose, Type } from 'class-transformer';
+import * as timeago from 'timeago.js';
+import { ko } from 'timeago.js/lib/lang';
+
+// Constants
+import { LanguageCode } from '../constants';
 import { sampleUuid } from '../constants/sample';
-import { Type } from 'class-transformer';
+
+// Types
+import type { Constructor } from '../types';
+
+// Dto
+import type { AbstractDto, AbstractTranslationDto } from './dto/abstract.dto';
+
+timeago.register('ko', ko);
+
+// Third Party
 
 /**
  * Abstract Entity
@@ -37,15 +54,17 @@ export abstract class AbstractEntity<DTO extends AbstractDto = AbstractDto, O = 
   @PrimaryGeneratedColumn('uuid')
   id: Uuid;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-  })
+  @UpdateDateColumn({ type: 'timestamp' })
+  @Exclude({ toPlainOnly: true })
   updatedAt: Date;
+
+  @Expose()
+  get createdAgo(): string {
+    return timeago.format(this.createdAt, 'ko');
+  }
 
   @Type()
   @Allow()

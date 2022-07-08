@@ -98,19 +98,34 @@ export class DeliveryController {
     type: DeliveryRetrieveResponse,
   })
   async getOneDelivery(@AuthUser() user, @Param('id') id: Uuid) {
-    // Get delivery
     const delivery: DeliveryEntity = await this.deliveryService.findOneOrFail(
       {
         user: user,
         id: id,
       },
+      // Get delivery
       {
         relations: ['deliveryHistories'],
       },
     );
-    console.log(delivery);
 
     // Return delivery
     return new DeliveryRetrieveResponse(delivery);
+  }
+
+  @Get(':id/template')
+  @Auth([RoleType.USER])
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: '배송 상세페이지 조회 API',
+    description: '배송 상세페이지 조회하는 API 입니다.',
+  })
+  async getOneDeliveryHtml(@AuthUser() user, @Param('id') id: Uuid) {
+    // Get delivery
+    const url = await this.deliveryService.getTemplate({
+      user: user,
+      id: id,
+    });
+    return { message: '페이지 조회를 완료하였습니다', data: url };
   }
 }

@@ -17,6 +17,7 @@ import { UserRegisteredResponse } from '../user/responses/user-registered.respon
 import { UserLoginDto } from './dtos/user-login.dto';
 import { UserEntity } from '../user/entities/user.entity';
 import { TokenDto } from './dtos/token.dto';
+
 @Controller('auth')
 @ApiTags(ApiTag.AUTH)
 export class AuthController {
@@ -34,6 +35,8 @@ export class AuthController {
       throw new UnauthorizedException('이미 등록된 유저입니다');
     }
     user = await this.userService.create(createUserDto);
+    console.log('user');
+    console.log(user);
     const token: TokenDto = await this.authService.createAccessToken({
       id: user.id,
       role: user.role,

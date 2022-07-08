@@ -83,3 +83,17 @@ This project includes a `docs` folder with more details on:
 1.  [Setup and development](https:// narhakobyan.github.io/awesome-nest-boilerplate/docs/development.html#first-time-setup)
 1.  [Architecture](https:// narhakobyan.github.io/awesome-nest-boilerplate/docs/architecture.html)
 1.  [Naming Cheatsheet](https:// narhakobyan.github.io/awesome-nest-boilerplate/docs/naming-cheatsheet.html)
+
+## Todo
+
+- [ ] 개발자 인풋 다양화 필요
+- [ ] 권한 설정 필요
+
+- [ ] 배송정보가 아니라 처음과 마지막 배송상태로 배송정보 업데이트
+- [ ] 배송세부정보 순서 저장
+- [ ] 3시간마다 서버 정보 가져오기
+- [ ] 업데이트가 중단된 배송 정보 무시하기
+- [ ] 배송 추적 시스템 필요
+- [ ] Soft Delete 구현
+- [ ] Hot reload 구현
+- [ ] 서버 배포

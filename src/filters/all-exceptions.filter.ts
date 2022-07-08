@@ -2,6 +2,7 @@ import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common';
 import { Catch, HttpException } from '@nestjs/common';
 import type { Response } from 'express';
 import { I18nService } from 'nestjs-i18n';
+
 @Catch(HttpException)
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly i18n: I18nService) {}

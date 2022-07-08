@@ -12,8 +12,9 @@ import { IsInt, IsPositive, IsString, IsUUID, Max, Min, ValidateNested } from 'c
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { DeliveryEntity } from './delivery.entity';
 import { sampleUuid } from '../../../constants/sample';
-import { Exclude, Type } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';
+import * as timeago from 'timeago.js';
 
 // Main section
 @Entity({ name: 'deliveryHistories' })
@@ -49,6 +50,12 @@ export class DeliveryHistoryEntity extends AbstractEntity {
   @ApiProperty({ type: 'string', description: '진행시간' })
   @Column({ nullable: true })
   time: Date;
+
+  @Expose()
+  get timeAgo(): string {
+    if (!this.time) return null;
+    return timeago.format(this.time, 'ko');
+  }
 
   // Office
   @ApiProperty({ type: 'string', description: '진행위치(지점)전화번호' })
