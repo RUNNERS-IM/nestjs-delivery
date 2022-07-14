@@ -2,7 +2,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 // Typeorm
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm';
 
 // Third party
 import { IsInt, IsPositive, IsString, IsUUID, Max, Min, ValidateNested } from 'class-validator';
@@ -19,6 +19,7 @@ import * as timeago from 'timeago.js';
 
 // Main section
 @Entity({ name: 'deliveries' })
+@Unique(['userId', 'code', 'invoice'])
 export class DeliveryEntity extends AbstractEntity {
   // ManyToOne fields
   @ApiModelProperty({ type: () => UserEntity })
@@ -52,15 +53,14 @@ export class DeliveryEntity extends AbstractEntity {
   @Column({ nullable: true })
   code: string;
 
-  @ApiProperty({ type: 'string', description: '식별값' })
-  @IsString()
-  @Column({ nullable: true })
-  fid: string;
-
   @ApiProperty({ type: 'string', description: '운송장번호', default: '243636855173' })
   @IsString()
   @Column({ nullable: true })
   invoice: string;
+
+  @ApiProperty({ type: 'text', description: '배송 상태' })
+  @Column({ nullable: true })
+  status: string;
 
   @ApiProperty({ type: 'number', description: '배송단계(1~6단계), -99 배송 스캔 오류' })
   @IsInt()

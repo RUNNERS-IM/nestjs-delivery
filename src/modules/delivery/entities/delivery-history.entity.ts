@@ -2,7 +2,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 // Typeorm
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 
 // Third party
 import { IsInt, IsPositive, IsString, IsUUID, Max, Min, ValidateNested } from 'class-validator';
@@ -18,6 +18,7 @@ import * as timeago from 'timeago.js';
 
 // Main section
 @Entity({ name: 'deliveryHistories' })
+@Unique(['deliveryId', 'order'])
 export class DeliveryHistoryEntity extends AbstractEntity {
   // ManyToOne fields
   @ApiModelProperty({ type: () => DeliveryEntity })
@@ -50,6 +51,12 @@ export class DeliveryHistoryEntity extends AbstractEntity {
   @ApiProperty({ type: 'string', description: '진행시간' })
   @Column({ nullable: true })
   time: Date;
+
+  @ApiProperty({ type: 'number', description: '배송순서' })
+  @IsInt()
+  @IsPositive()
+  @Column({ nullable: true })
+  order: number;
 
   @Expose()
   get timeAgo(): string {

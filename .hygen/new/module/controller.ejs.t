@@ -92,6 +92,12 @@ unless_exists: true
   resourceOptionsFileName = h.resourceOptionsFileName(name);
   subResourceOptionsFileName = h.resourceOptionsFileName(subname);
 
+  // Query
+  QueryName = h.QueryName(name);
+  SubQueryName = h.QueryName(subname);
+  queryFileName = h.queryFileName(name);
+  subQueryFileName = h.queryFileName(subname);
+
   // Function
   createFunctionName = 'create' + ClassName;
   subCreateFunctionName = 'create' + SubClassName;
@@ -132,7 +138,7 @@ import { RoleType } from '../../../constants';
 
 // Decorators
 import { Auth, AuthUser } from '../../../decorators';
-import { ApiListResponse } from '../../../decorators/api-list-response.decorator';
+import { ApiListResponse } from "../../../decorators/responses/api-list-response.decorator";
 
 // Entity
 import { <%= EntityName %> } from '../entities/<%= entityFileName %>';
@@ -179,6 +185,7 @@ export class <%= ClassName %>Controller {
   }
 
   @Get()
+  @PaginateApiQuery()
   @Auth([RoleType.USER])
   @HttpCode(HttpStatus.OK)
   @ApiOperation({

@@ -23,7 +23,7 @@ export class Response<T> {
   @ApiPropertyOptional()
   errors?: any; // 에러 내역
 }
-export class PaginatedListBaseResponse<T> {
+export class ListPaginatedResponse<T> {
   constructor(paginatedData, message?, statusCode?, errors?) {
     this.data = paginatedData.data;
     this.meta = paginatedData.meta;

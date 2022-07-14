@@ -135,5 +135,13 @@ module.exports = {
     resourceOptionsFileName(name) {
       return `${this.filename(name)}.response.options`;
     },
+
+    // Query
+    QueryName(name) {
+      return `${this.name(name)}Query`;
+    },
+    queryFileName(name) {
+      return `${this.filename(name)}.query`;
+    },
   },
 };

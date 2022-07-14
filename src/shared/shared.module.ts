@@ -18,6 +18,7 @@ import { ValidatorService } from './services/validator.service';
 import { CryptoService } from './services/crypto.service';
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
 import { SweetTrackerService } from './services/sweet-tracker.service';
+import { TasksService } from './services/tasks.service';
 
 // Main section
 const providers = [
@@ -28,6 +29,7 @@ const providers = [
   TranslationService,
   CryptoService,
   SweetTrackerService,
+  TasksService,
   // {
   //   provide: 'NATS_SERVICE',
   //   useFactory: (configService: ApiConfigService) => {

@@ -1,11 +1,11 @@
 // Nestjs
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 
 // Typeorm
 import { BaseEntity, DeepPartial, FindConditions, FindManyOptions, Repository } from 'typeorm';
 
 // Core
-import { Paginated } from 'nestjs-paginate/lib/paginate';
+import { FilterOperator, PaginateConfig, Paginated } from 'nestjs-paginate/lib/paginate';
 
 // Dto
 import { paginate, PaginateQuery } from 'nestjs-paginate';
@@ -14,18 +14,24 @@ import { Optional } from '../types';
 import { FindOneOptions } from 'typeorm/find-options/FindOneOptions';
 
 // Main section
-@Injectable()
 export class CrudService<T extends BaseEntity> implements ICrudService<T> {
   private readonly entityName = this.genericRepository.metadata.targetName;
   constructor(private readonly genericRepository: Repository<T>) {}
 
-  public async search(where, query: PaginateQuery): Promise<Paginated<T>> {
-    // Return section
-    return paginate(query, this.genericRepository, {
+  public async search(query, paginateQuery: PaginateQuery): Promise<Paginated<T>> {
+    // Variable section
+    const paginateConfig: PaginateConfig<T> = {
+      defaultSortBy: [['id', 'DESC']],
       sortableColumns: ['id'],
       searchableColumns: ['title'],
-      where: where,
-    });
+      filterableColumns: {
+        time: [FilterOperator.GTE, FilterOperator.LTE, FilterOperator.BTW],
+      },
+      ...query,
+    };
+
+    // Return section
+    return paginate<T>(paginateQuery, this.genericRepository, paginateConfig);
   }
   // Find
   public async find(optionsOrConditions?: FindManyOptions<T> | FindConditions<T>): Promise<T[]> {

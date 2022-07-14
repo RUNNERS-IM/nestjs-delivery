@@ -6,6 +6,8 @@ import {
   HttpStatus,
   UnprocessableEntityException,
   ValidationPipe,
+  VERSION_NEUTRAL,
+  VersioningType,
 } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
@@ -47,9 +49,6 @@ export async function bootstrap(): Promise<NestExpressApplication> {
     cors: true,
   });
   const configService = app.select(SharedModule).get(ApiConfigService);
-  if (configService.documentationEnabled) {
-    setupSwagger(app);
-  }
 
   app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(
@@ -75,7 +74,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   );
   app.use(compression());
   app.use(morgan('combined'));
-  app.enableVersioning();
+  app.enableVersioning({ type: VersioningType.URI, defaultVersion: [VERSION_NEUTRAL] });
   app.enableCors();
   const reflector = app.get(Reflector);
   app.useGlobalFilters(new HttpExceptionFilter(reflector), new QueryFailedFilter(reflector));
@@ -114,6 +113,11 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   // Starts listening for shutdown hooks
   if (!configService.isDevelopment) {
     app.enableShutdownHooks();
+  }
+
+  // Swagger
+  if (configService.documentationEnabled) {
+    setupSwagger(app);
   }
 
   const port = configService.appConfig.port;

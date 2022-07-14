@@ -1,7 +1,7 @@
 // Nestjs
-import { Module } from '@nestjs/common';
+import { CacheInterceptor, CacheModule, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Adminjs
@@ -33,6 +33,7 @@ import { ApiConfigService } from './shared/services/api-config.service';
 
 // Controller
 import { AppController } from './app.controller';
+import { ScheduleModule } from '@nestjs/schedule';
 
 require('./env');
 
@@ -88,13 +89,18 @@ const configModule = ConfigModule.forRoot({
       inject: [ApiConfigService],
     }),
     HealthCheckerModule,
+    CacheModule.register({ isGlobal: true }),
+    ScheduleModule.forRoot(),
   ],
   providers: [
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    ApiConfigService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
   ],
   controllers: [AppController],
 })

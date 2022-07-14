@@ -92,6 +92,12 @@ unless_exists: true
   resourceOptionsFileName = h.resourceOptionsFileName(name);
   subResourceOptionsFileName = h.resourceOptionsFileName(subname);
 
+  // Query
+  QueryName = h.QueryName(name);
+  SubQueryName = h.QueryName(subname);
+  queryFileName = h.queryFileName(name);
+  subQueryFileName = h.queryFileName(subname);
+
   // Function
   createFunctionName = 'create' + ClassName;
   subCreateFunctionName = 'create' + SubClassName;

@@ -5,16 +5,14 @@ import { AxiosRequestConfig } from '@nestjs/terminus/dist/health-indicator/http/
 // Third party
 import axios from 'axios';
 
-// Constants
 // Service
-// import { ApiConfigService } from './api-config.service';
 import { ApiConfigService } from './api-config.service';
 
 // Function section
 
 const reformatCompany = (company) => {
   return {
-    // international: JSON.parse(String(item.International)),
+    international: JSON.parse(String(company.International)),
     code: company.Code,
     title: company.Name,
   };
@@ -22,12 +20,27 @@ const reformatCompany = (company) => {
 
 const reformatDelivery = (delivery) => {
   return {
+    // Sender
     nameSender: delivery.senderName,
+
+    // Office
+    callOffice: delivery.lastStateDetail.telno,
+
+    // Driver
+    nameDriver: delivery.lastStateDetail.manName,
+    callDriver: delivery.lastStateDetail.telno2,
+
+    // Receiver
     nameReceiver: delivery.receiverName,
+    addressReceiver: delivery.receiverAddr,
+
+    // Basic
     title: delivery.itemName, // 상품명
+    status: delivery.lastStateDetail.kind, // 상태
     estimate: delivery.estimate, // 배송 예정 시간: string
+    time: delivery.lastStateDetail.timeString, // 배송 예정 시간: string
     isComplete: delivery.complete, // 배송 완료 여부: boolean
-    level: delivery.level, // 진행단계: number (1: 배송준비중, 2: 집화완료, 3: 배송중, 4: 지점 도착, 5: 배송출발, 6:배송 완료)
+    level: delivery.level || delivery.lastStateDetail.level, // 진행단계: number (1: 배송준비중, 2: 집화완료, 3: 배송중, 4: 지점 도착, 5: 배송출발, 6:배송 완료)
     deliveryHistories: delivery.trackingDetails.map(reformatDeliveryDetail), // 배송내역
   };
 };
@@ -87,19 +100,6 @@ export class SweetTrackerService {
     return { t_key: this.sweettrackerKey, ...params };
   };
 
-  // getInfoData = (todo) => {
-  //   var data = new FormData();
-  //   data.append('t_key', 'G3hW02J53tWidMQisudiUQ');
-  //   data.append('t_code', '08');
-  //   data.append('t_invoice', '243636855173');
-  //
-  //   return data;
-  // };
-
-  getFid(key: string) {
-    return 'Fid-' + String(key) + '-' + String(new Date().getTime());
-  }
-
   async getCompanies() {
     const url = this.getInfoUrl('companylist');
     const params = this.getInfoParams();
@@ -123,7 +123,6 @@ export class SweetTrackerService {
     const url = this.getInfoUrl('trackingInfo');
     const params = this.getInfoParams({ t_invoice: invoice, t_code: code });
     const { data: response } = await axios.get(url, { params });
-    console.log(response);
     if (response.status == false) throw new ForbiddenException(response.msg);
     return reformatDelivery(response);
   }
