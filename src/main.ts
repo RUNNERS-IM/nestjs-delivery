@@ -113,6 +113,12 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   // Starts listening for shutdown hooks
   if (!configService.isDevelopment) {
     app.enableShutdownHooks();
+  } else {
+    console.log(module.hot);
+    if (module.hot) {
+      module.hot.accept();
+      module.hot.dispose(() => void app.close());
+    }
   }
 
   // Swagger
@@ -123,13 +129,6 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   const port = configService.appConfig.port;
   await app.listen(port || 3000, '0.0.0.0');
   console.info(`server running on ${await app.getUrl()}`);
-
-  // if (module.hot) {
-  //   module.hot.accept();
-
-  //   module.hot.dispose(() => app.close());
-
-  // }
 
   return app;
 }

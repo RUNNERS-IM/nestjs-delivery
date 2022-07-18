@@ -1,3 +1,4 @@
+
 # NestJS Delivery
 
 [![NestJS Delivery](https:// img.shields.io/badge/NestJS-Delivery-red.svg?longCache=true&style=flat-square)](https:// github.com/juliandavidmr/awesome-nestjs)
@@ -86,15 +87,11 @@ This project includes a `docs` folder with more details on:
 
 ## Todo
 
-- [ ] 3시간마다 배송 정보 가져오기
-- [ ] 하루마다 배송사 정보 가져오기
-- [ ] API 버저닝
-- [ ] API 캐싱
-- [ ] 업데이트가 중단된 배송 정보 무시하기
-- [ ] 배송 추적 시스템 필요
-- 
-- [ ] Hot reload 구현
-- [ ] 서버 배포
-- 
-- [ ] 주소 API
+- [ ] 히스토리
+- [ ] 5번 에러나면 무시하기
 - [ ] Soft Delete 구현
+- [ ] 서버 배포
+
+
+- [ ] 주소 API
+- [ ] 택배예약, 반품예약

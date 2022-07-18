@@ -31,7 +31,7 @@ export class DeliverySubscriber implements EntitySubscriberInterface<DeliveryEnt
   }
 
   // Function section
-  async updateDelivery(entity: DeliveryEntity, event) {
+  async trackDelivery(entity: DeliveryEntity, event) {
     const dataDelivery = await this.sweetTrackerService.getDelivery(entity.invoice, entity.code);
 
     for (const key in dataDelivery) {
@@ -62,7 +62,7 @@ export class DeliverySubscriber implements EntitySubscriberInterface<DeliveryEnt
 
   // Listener section
   async beforeInsert(event: InsertEvent<DeliveryEntity>) {
-    await this.updateDelivery(event.entity, event);
+    await this.trackDelivery(event.entity, event);
   }
   async afterInsert(event: InsertEvent<DeliveryEntity>) {
     await this.updateDeliveryHistories(event.entity, event);

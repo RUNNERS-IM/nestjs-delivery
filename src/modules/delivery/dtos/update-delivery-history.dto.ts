@@ -5,7 +5,7 @@ import { PartialType, PickType } from '@nestjs/swagger';
 import { DeliveryHistoryEntity } from '../entities/delivery-history.entity';
 
 // Main section
-export class UpdateDeliveryHistoryDto extends PickType(PartialType(DeliveryHistoryEntity), [
-'title',
-'number',
-] as const) {}
+export class UpdateDeliveryHistoryDto extends PickType(
+  PartialType(DeliveryHistoryEntity),
+  [] as const,
+) {}

@@ -5,7 +5,4 @@ import { PartialType, PickType } from '@nestjs/swagger';
 import { CompanyEntity } from '../entities/company.entity';
 
 // Main section
-export class UpdateCompanyDto extends PickType(PartialType(CompanyEntity), [
-'title',
-'number',
-] as const) {}
+export class UpdateCompanyDto extends PickType(PartialType(CompanyEntity), [] as const) {}

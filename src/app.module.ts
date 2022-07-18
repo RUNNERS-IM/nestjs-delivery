@@ -34,6 +34,9 @@ import { ApiConfigService } from './shared/services/api-config.service';
 // Controller
 import { AppController } from './app.controller';
 import { ScheduleModule } from '@nestjs/schedule';
+import { TasksService } from './shared/services/tasks.service';
+import { TypeOrmHistoryModule } from '@kittgen/nestjs-typeorm-history';
+import { Connection } from 'typeorm';
 
 require('./env');
 
@@ -44,7 +47,7 @@ const configModule = ConfigModule.forRoot({
   ignoreEnvFile: process.env.NODE_ENV === 'production',
   envFilePath: `.envs/${process.env.ENVIRONMENT}.env`,
   validationSchema: joi.object({
-    NODE_ENV: joi.string().valid('test', 'local', 'production').required(),
+    NODE_ENV: joi.string().valid('development', 'production').required(),
     // APP
     PORT: joi.string().required(),
     FALLBACK_LANGUAGE: joi.string().required(),
@@ -66,6 +69,7 @@ const configModule = ConfigModule.forRoot({
 @Module({
   imports: [
     configModule,
+    // Adminjs
     adminjsModule,
     SharedModule,
     AuthModule,
@@ -91,6 +95,14 @@ const configModule = ConfigModule.forRoot({
     HealthCheckerModule,
     CacheModule.register({ isGlobal: true }),
     ScheduleModule.forRoot(),
+
+    // nestjs-typeorm-history
+    TypeOrmHistoryModule.registerAsync({
+      inject: [Connection],
+      useFactory: (connection: Connection) => ({
+        connection,
+      }),
+    }),
   ],
   providers: [
     {
@@ -101,6 +113,7 @@ const configModule = ConfigModule.forRoot({
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
     },
+    TasksService,
   ],
   controllers: [AppController],
 })
